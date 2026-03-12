@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 11:43:00 by joaomart          #+#    #+#             */
-/*   Updated: 2026/03/11 13:59:02 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/03/12 10:15:57 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ Phonebook::Phonebook()
 {
 	this->_index = 0;
 }
+
 void Phonebook::add(Contact contact)
 {
 	this->_contacts[_index] = contact;
