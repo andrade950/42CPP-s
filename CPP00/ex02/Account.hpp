@@ -1,20 +1,23 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Account.hpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/12 10:14:47 by joaomart          #+#    #+#             */
-/*   Updated: 2026/03/12 10:15:32 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// ************************************************************************** //
+//                                                                            //
+//                Account.hpp for GlobalBanksters United                //
+//                Created on  : Thu Nov 20 19:43:15 1989                      //
+//                Last update : Wed Jan 04 14:54:06 1992                      //
+//                Made by : Brad "Buddy" McLane <bm@gbu.com>                  //
+//                                                                            //
+// ************************************************************************** //
+
 
 #pragma once
 #ifndef __ACCOUNT_H__
 #define __ACCOUNT_H__
 
+// ************************************************************************** //
+//                               Account Class                                //
+// ************************************************************************** //
+
 class Account {
+
 
 public:
 
@@ -31,8 +34,9 @@ public:
 
 	void	makeDeposit( int deposit );
 	bool	makeWithdrawal( int withdrawal );
-	int	checkAmount( void ) const;
+	int		checkAmount( void ) const;
 	void	displayStatus( void ) const;
+
 
 private:
 
@@ -52,6 +56,8 @@ private:
 
 };
 
+
+
 // ************************************************************************** //
 // vim: set ts=4 sw=4 tw=80 noexpandtab:                                      //
 // -*- indent-tabs-mode:t;                                                   -*-
@@ -59,4 +65,5 @@ private:
 // -*- fill-column: 75; comment-column: 75;                                  -*-
 // ************************************************************************** //
 
-#endif
+
+#endif /* __ACCOUNT_H__ */
