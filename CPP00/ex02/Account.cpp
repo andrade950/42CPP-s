@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 14:41:40 by joaomart          #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:35 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/03/12 12:01:32 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ int	Account::_totalNbWithdrawals = 0;
 
 Account::Account( int initial_deposit )
 {
-	_displayTimestamp();
-	std::cout << "index:" <<_accountIndex
-	<< ";amount:" << _amount
-	<< "created"
-	<< std::endl;
-	this->_accountIndex = _nbAccounts++;
-	this->_amount = initial_deposit;
-	_totalAmount += initial_deposit;
+    this->_accountIndex = _nbAccounts++;
+    this->_amount = initial_deposit;
+    _totalAmount += initial_deposit;
+    _displayTimestamp();
+    std::cout << "index:" << _accountIndex
+              << ";amount:" << _amount
+              << ";created" << std::endl;
 }
 
 Account::Account(void)
