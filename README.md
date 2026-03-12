@@ -1,13 +1,13 @@
-# CPP's — C++ Modules
+# 42 — C++ Modules
 
 [Leia em Português](README.pt.md)
 
-> Repositório com todos os exercícios dos módulos de C++ da 42.  
-> Cada módulo introduz conceitos progressivos da linguagem — do básico ao avançado.
+> Repository containing all exercises from the 42 C++ modules.  
+> Each module progressively introduces new concepts of the language — from the basics to advanced topics.
 
 ---
 
-## 📁 Estrutura do Repositório
+## 📁 Repository Structure
 
 ```
 cpp/
@@ -23,30 +23,30 @@ cpp/
 
 ---
 
-## 🗂️ Módulos
+## 🗂️ Modules
 
 <details>
 <summary><strong>CPP00 — Namespaces, Classes, I/O</strong></summary>
 
-### Conceitos abordados
+### Concepts covered
 - Namespaces (`std::`)
-- Classes, atributos e métodos
-- Encapsulamento (`private` / `public`)
-- Getters e Setters
-- Variáveis e métodos estáticos
-- Construtor e Destrutor
+- Classes, attributes and methods
+- Encapsulation (`private` / `public`)
+- Getters and Setters
+- Static variables and methods
+- Constructor and Destructor
 - `std::cin`, `std::cout`, `std::getline`
 
 ---
 
 ### ex00 — Megaphone
 
-**Objetivo:** Introdução ao C++ e ao uso de `std::cout`.
+**Goal:** Introduction to C++ and the use of `std::cout`.
 
-O programa recebe palavras como argumentos e imprime-as em maiúsculas.  
-Se não receber argumentos, imprime uma mensagem de ruído.
+The program takes words as arguments and prints them in uppercase.  
+If no arguments are provided, it prints a noise message.
 
-**Exemplo:**
+**Example:**
 ```bash
 ./megaphone "hello world"
 HELLO WORLD
@@ -55,55 +55,55 @@ HELLO WORLD
 * LOUD AND UNBEARABLE NOISE *
 ```
 
-**Ficheiros:**
-| Ficheiro | Descrição |
+**Files:**
+| File | Description |
 |---|---|
-| `megaphone.cpp` | Lógica principal, percorre `argv[]` e converte com `std::toupper()` |
+| `megaphone.cpp` | Main logic, iterates over `argv[]` and converts with `std::toupper()` |
 
 ---
 
 ### ex01 — Phonebook
 
-**Objetivo:** Introdução a classes e interação com o utilizador.
+**Goal:** Introduction to classes and user interaction.
 
-Uma agenda com capacidade para 8 contactos. Quando cheia, o contacto mais antigo é substituído.
+A phonebook with a capacity of 8 contacts. When full, the oldest contact is replaced by the new one.
 
-**Comandos disponíveis:**
-| Comando | Ação |
+**Available commands:**
+| Command | Action |
 |---|---|
-| `ADD` | Adiciona um novo contacto |
-| `SEARCH` | Lista e pesquisa contactos por índice |
-| `EXIT` | Termina o programa |
+| `ADD` | Adds a new contact |
+| `SEARCH` | Lists and searches contacts by index |
+| `EXIT` | Exits the program |
 
-**Campos de cada contacto:** First name, Last name, Nickname, Phone number, Darkest secret.
+**Contact fields:** First name, Last name, Nickname, Phone number, Darkest secret.
 
-> ⚠️ Na tabela de SEARCH, nomes com mais de 10 caracteres são truncados com `.` — ex: `"JoaoMartins"` → `"JoaoMarti."`
+> ⚠️ In the SEARCH table, names longer than 10 characters are truncated with `.` — e.g. `"JoaoMartins"` → `"JoaoMarti."`
 
-**Ficheiros:**
-| Ficheiro | Descrição |
+**Files:**
+| File | Description |
 |---|---|
-| `main.cpp` | Loop principal, lê input e cria contactos |
-| `Contact.hpp/.cpp` | Classe com os dados de cada contacto |
-| `Phonebook.hpp/.cpp` | Classe que gere o array de 8 contactos |
-| `utils.hpp/.cpp` | Funções auxiliares: `Display()`, `IsNumber()`, `Stoi()`, `HandleSignal()` |
+| `main.cpp` | Main loop, reads input and creates contacts |
+| `Contact.hpp/.cpp` | Class holding each contact's data |
+| `Phonebook.hpp/.cpp` | Class managing the array of 8 contacts |
+| `utils.hpp/.cpp` | Helper functions: `Display()`, `IsNumber()`, `Stoi()`, `HandleSignal()` |
 
 ---
 
 ### ex02 — The Account Class
 
-**Objetivo:** Trabalhar com variáveis estáticas, construtor/destrutor e timestamps.
+**Goal:** Work with static variables, constructor/destructor and timestamps.
 
-Simula contas bancárias com depósitos e levantamentos. Mantém estatísticas globais de todas as contas.
+Simulates bank accounts with deposits and withdrawals. Maintains global statistics across all accounts simultaneously.
 
-**Variáveis estáticas** (partilhadas por todas as contas):
+**Static variables** (shared across all accounts):
 ```
-_nbAccounts        → número total de contas criadas
-_totalAmount       → soma de todos os saldos
-_totalNbDeposits   → total de depósitos feitos
-_totalNbWithdrawals → total de levantamentos feitos
+_nbAccounts         → total number of accounts created
+_totalAmount        → sum of all balances
+_totalNbDeposits    → total deposits made
+_totalNbWithdrawals → total withdrawals made
 ```
 
-**Formato de output (exemplo):**
+**Output format (example):**
 ```
 [20260312_101435] index:0;amount:42;created
 [20260312_101435] index:0;p_amount:42;deposit:5;amount:47;nb_deposits:1
@@ -111,20 +111,20 @@ _totalNbWithdrawals → total de levantamentos feitos
 [20260312_101435] index:0;amount:47;closed
 ```
 
-**Ficheiros:**
-| Ficheiro | Descrição |
+**Files:**
+| File | Description |
 |---|---|
-| `Account.hpp` | Interface da classe (fornecida pelo enunciado) |
-| `Account.cpp` | Implementação de todos os métodos |
-| `tests.cpp` | Testes fornecidos pelo enunciado |
+| `Account.hpp` | Class interface (provided by the subject) |
+| `Account.cpp` | Implementation of all methods |
+| `tests.cpp` | Tests provided by the subject |
 
 </details>
 
 ---
 
-## 🔧 Como compilar
+## 🔧 How to Compile
 
-Cada exercício tem o seu próprio `Makefile`. Para compilar:
+Each exercise has its own `Makefile`. To compile:
 
 ```bash
 cd cpp00/ex00
@@ -132,29 +132,29 @@ make
 ./megaphone "hello 42"
 ```
 
-**Regras disponíveis:**
+**Available rules:**
 ```bash
-make        # compila
-make clean  # remove ficheiros objeto
-make fclean # remove tudo incluindo o binário
+make        # compiles the project
+make clean  # removes object files
+make fclean # removes everything including the binary
 make re     # fclean + make
 ```
 
 ---
 
-## 📚 Conceitos por Módulo (Roadmap)
+## 📚 Concepts per Module (Roadmap)
 
-| Módulo | Tema Principal |
+| Module | Main Topic |
 |---|---|
 | [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
-| CPP01 | Memória, Ponteiros, Referências, `new`/`delete` |
-| CPP02 | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
-| CPP03 | Herança |
-| CPP04 | Polimorfismo, Classes Abstratas, Interfaces |
-| CPP05 | Exceções |
-| CPP06 | Casts em C++ |
+| CPP01 | Memory, Pointers, References, `new`/`delete` |
+| CPP02 | Orthodox Canonical Form, Operator Overloading |
+| CPP03 | Inheritance |
+| CPP04 | Polymorphism, Abstract Classes, Interfaces |
+| CPP05 | Exceptions |
+| CPP06 | C++ Casts |
 | CPP07 | Templates |
-| CPP08 | Containers e Iteradores STL |
-| CPP09 | Algoritmos STL |
+| CPP08 | STL Containers and Iterators |
+| CPP09 | STL Algorithms |
 
 ---
