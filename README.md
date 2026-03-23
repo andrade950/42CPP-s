@@ -89,35 +89,6 @@ A phonebook with a capacity of 8 contacts. When full, the oldest contact is repl
 
 ---
 
-### ex02 — The Account Class
-
-**Goal:** Work with static variables, constructor/destructor and timestamps.
-
-Simulates bank accounts with deposits and withdrawals. Maintains global statistics across all accounts simultaneously.
-
-**Static variables** (shared across all accounts):
-```
-_nbAccounts         → total number of accounts created
-_totalAmount        → sum of all balances
-_totalNbDeposits    → total deposits made
-_totalNbWithdrawals → total withdrawals made
-```
-
-**Output format (example):**
-```
-[20260312_101435] index:0;amount:42;created
-[20260312_101435] index:0;p_amount:42;deposit:5;amount:47;nb_deposits:1
-[20260312_101435] index:0;p_amount:47;withdrawal:321;withdrawal:refused
-[20260312_101435] index:0;amount:47;closed
-```
-
-**Files:**
-| File | Description |
-|---|---|
-| `Account.hpp` | Class interface (provided by the subject) |
-| `Account.cpp` | Implementation of all methods |
-| `tests.cpp` | Tests provided by the subject |
-
 </details>
 
 ---
