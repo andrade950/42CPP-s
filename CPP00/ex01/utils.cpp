@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 14:01:25 by joaomart          #+#    #+#             */
-/*   Updated: 2026/03/11 14:01:35 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/03/18 14:21:05 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ bool IsNumber(std::string str)
 void	Display()
 {
 	std::cout << " ___________________________________________ " << std::endl;
-	std::cout << "|  Welcome to 90's Phonebook                |" << std::endl;
+	std::cout << "|                Phonebook                  |" << std::endl;
 	std::cout << "|___________________________________________|" << std::endl;
-	std::cout << "|   To Add Contact type ADD                 |" << std::endl;
+	std::cout << "|         To Add Contact type ADD           |" << std::endl;
 	std::cout << "|___________________________________________|" << std::endl;
-	std::cout << "|   To Search Contact type SEARCH           |" << std::endl;
+	std::cout << "|       To Search Contact type SEARCH       |" << std::endl;
 	std::cout << "|___________________________________________|" << std::endl;
-	std::cout << "|  For Exiting type EXIT                    |" << std::endl;
+	std::cout << "|           For Exiting type EXIT           |" << std::endl;
 	std::cout << "|___________________________________________|" << std::endl;
 }
