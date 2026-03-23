@@ -87,8 +87,6 @@ A phonebook with a capacity of 8 contacts. When full, the oldest contact is repl
 | `Phonebook.hpp/.cpp` | Class managing the array of 8 contacts |
 | `utils.hpp/.cpp` | Helper functions: `Display()`, `IsNumber()`, `Stoi()`, `HandleSignal()` |
 
----
-
 </details>
 
 ---
