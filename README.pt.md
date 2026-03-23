@@ -87,37 +87,6 @@ Uma agenda com capacidade para 8 contactos. Quando cheia, o contacto mais antigo
 | `Phonebook.hpp/.cpp` | Classe que gere o array de 8 contactos |
 | `utils.hpp/.cpp` | Funções auxiliares: `Display()`, `IsNumber()`, `Stoi()`, `HandleSignal()` |
 
----
-
-### ex02 — The Account Class
-
-**Objectivo:** Trabalhar com variáveis estáticas, construtor/destrutor e timestamps.
-
-Simula contas bancárias com depósitos e levantamentos. Mantém estatísticas globais de todas as contas em simultâneo.
-
-**Variáveis estáticas** (partilhadas por todas as contas):
-```
-_nbAccounts         → número total de contas criadas
-_totalAmount        → soma de todos os saldos
-_totalNbDeposits    → total de depósitos efectuados
-_totalNbWithdrawals → total de levantamentos efectuados
-```
-
-**Formato do output (exemplo):**
-```
-[20260312_101435] index:0;amount:42;created
-[20260312_101435] index:0;p_amount:42;deposit:5;amount:47;nb_deposits:1
-[20260312_101435] index:0;p_amount:47;withdrawal:321;withdrawal:refused
-[20260312_101435] index:0;amount:47;closed
-```
-
-**Ficheiros:**
-| Ficheiro | Descrição |
-|---|---|
-| `Account.hpp` | Interface da classe (fornecida pelo enunciado) |
-| `Account.cpp` | Implementação de todos os métodos |
-| `tests.cpp` | Testes fornecidos pelo enunciado |
-
 </details>
 
 ---
