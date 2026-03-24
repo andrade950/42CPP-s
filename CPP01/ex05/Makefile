@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 14:38:43 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/17 14:40:42 by joaomart         ###   ########.fr        #
+#    Updated: 2026/03/24 14:50:14 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ re: fclean all
 # O Harl não perdoa erros de memória!
 va: all
 	@echo "$(YELLOW)Ouvindo as queixas do Valgrind...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
 

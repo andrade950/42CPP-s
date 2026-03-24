@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 14:40:03 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/17 14:40:36 by joaomart         ###   ########.fr        #
+#    Updated: 2026/03/24 14:50:17 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ re: fclean all
 # O filtro tem de ser estanque! Nada de leaks.
 va: all
 	@echo "$(YELLOW)Verificando fugas no sistema de filtragem...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME) "WARNING"
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) "WARNING"
 
 .PHONY: all clean fclean re va
 

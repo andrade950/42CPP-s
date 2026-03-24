@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 13:59:58 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/17 14:24:50 by joaomart         ###   ########.fr        #
+#    Updated: 2026/03/24 14:49:50 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ re: fclean all
 # Verificação crucial para o 'zombieHorde' (uso de new[] e delete[])
 va: all
 	@echo "$(YELLOW)Inspecionando a horda no microscópio (Valgrind)...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
 

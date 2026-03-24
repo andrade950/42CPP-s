@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 14:17:35 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/17 14:25:04 by joaomart         ###   ########.fr        #
+#    Updated: 2026/03/24 14:50:08 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ re: fclean all
 # Essencial para garantir que o ponteiro do HumanB não explode!
 va: all
 	@echo "$(YELLOW)Inspecionando ferimentos de memória (Valgrind)...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
 

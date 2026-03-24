@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 14:07:01 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/17 14:24:41 by joaomart         ###   ########.fr        #
+#    Updated: 2026/03/24 14:50:04 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ re: fclean all
 # Essencial para ver se os endereços de memória batem certo no output
 va: all
 	@echo "$(YELLOW)Mapeando atividade cerebral (Valgrind)...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
 

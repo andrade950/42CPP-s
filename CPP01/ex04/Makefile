@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 14:30:34 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/17 14:30:59 by joaomart         ###   ########.fr        #
+#    Updated: 2026/03/24 14:50:12 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ re: fclean all
 # Útil para testar se não há leaks ao abrir/fechar ficheiros
 va: all
 	@echo "$(YELLOW)Verificando fugas de descritores e memória...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME) test.txt "procurar" "substituir"
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) test.txt "procurar" "substituir"
 
 .PHONY: all clean fclean re va
 
