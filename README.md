@@ -22,6 +22,10 @@ cpp/
 │   ├── ex04/   → Sed is for losers
 │   ├── ex05/   → Harl 2.0
 │   └── ex06/   → Harl filter
+├── cpp02/
+│   ├── ex00/   → My First Class in Orthodox Canonical Form
+│   ├── ex01/   → Towards a more useful fixed-point number class
+│   └── ex02/   → Now we're talking
 └── ...
 ```
 
@@ -236,6 +240,77 @@ This is unacceptable! I want to speak to the manager now.
 
 ---
 
+<details>
+<summary><strong>CPP02 — Orthodox Canonical Form, Operator Overloading, Fixed-point numbers</strong></summary>
+
+### Concepts covered
+- Orthodox Canonical Form (default constructor, copy constructor, copy assignment operator, destructor)
+- Fixed-point number representation
+- Operator overloading (comparison, arithmetic, increment/decrement, stream insertion)
+- Static member functions
+- Ad-hoc polymorphism
+
+---
+
+### ex00 — My First Class in Orthodox Canonical Form
+
+**Goal:** Introduction to the Orthodox Canonical Form and fixed-point numbers.
+
+Implement a `Fixed` class representing a fixed-point number with 8 fractional bits. The class stores its value as a raw integer internally, and only exposes `getRawBits()` / `setRawBits()` at this stage.
+
+**Files:**
+| File | Description |
+|---|---|
+| `Fixed.hpp` | Class definition with private `_fixedPoint` and static `_frac_bits = 8` |
+| `Fixed.cpp` | Implementation of the four canonical members + `getRawBits` / `setRawBits` |
+| `main.cpp` | Tests construction, copy, assignment and raw value retrieval |
+
+---
+
+### ex01 — Towards a more useful fixed-point number class
+
+**Goal:** Add integer and float constructors plus conversion functions.
+
+Extends the `Fixed` class with two new constructors and two conversion member functions, making it possible to actually represent real values. Also overloads `operator<<` for easy printing.
+
+- `Fixed(const int)` — converts an integer to fixed-point by left-shifting 8 bits.
+- `Fixed(const float)` — converts a float using `roundf`.
+- `toInt()` — converts the fixed-point value back to an integer.
+- `toFloat()` — converts the fixed-point value back to a float.
+
+**Files:**
+| File | Description |
+|---|---|
+| `Fixed.hpp` | Updated header with new constructors and conversion functions |
+| `Fixed.cpp` | Implementation of int/float constructors, `toInt`, `toFloat`, and `operator<<` |
+| `main.cpp` | Tests all constructors, conversions and stream output |
+
+---
+
+### ex02 — Now we're talking
+
+**Goal:** Full operator overloading — comparisons, arithmetic, increment/decrement and min/max.
+
+The final and most complete version of the `Fixed` class. Implements the full set of operators needed to use it as a proper numeric type.
+
+- **Comparison:** `>`, `<`, `>=`, `<=`, `==`, `!=`
+- **Arithmetic:** `+`, `-`, `*`, `/`
+- **Increment/Decrement:** `++` / `--` (both pre and post), incrementing by the smallest representable ε (1 raw bit)
+- **Static min/max:** four overloads (const and non-const references)
+
+> ⚠️ Division by zero is acceptable to crash the program.
+
+**Files:**
+| File | Description |
+|---|---|
+| `Fixed.hpp` | Full class definition with all operator declarations |
+| `Fixed.cpp` | Implementation of all operators and static `min` / `max` functions |
+| `main.cpp` | Comprehensive tests: subject main, comparisons, arithmetic, increment/decrement and min/max |
+
+</details>
+
+---
+
 ## 🔧 How to Compile
 
 Each exercise has its own `Makefile`. To compile:
@@ -262,7 +337,7 @@ make re     # fclean + make
 |---|---|
 | [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
 | [CPP01](CPP01) | Memory, Pointers, References, `new`/`delete` |
-| CPP02 | Orthodox Canonical Form, Operator Overloading |
+| [CPP02](CPP02) | Orthodox Canonical Form, Operator Overloading |
 | CPP03 | Inheritance |
 | CPP04 | Polymorphism, Abstract Classes, Interfaces |
 | CPP05 | Exceptions |
