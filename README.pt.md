@@ -22,6 +22,10 @@ cpp/
 │   ├── ex04/   → Sed is for losers
 │   ├── ex05/   → Harl 2.0
 │   └── ex06/   → Harl filter
+├── cpp02/
+│   ├── ex00/   → A Minha Primeira Classe em Forma Canónica Ortodoxa
+│   ├── ex01/   → Rumo a uma classe de vírgula fixa mais útil
+│   └── ex02/   → Agora sim estamos a falar
 └── ...
 ```
 
@@ -236,6 +240,77 @@ This is unacceptable! I want to speak to the manager now.
 
 ---
 
+<details>
+<summary><strong>CPP02 — Forma Canónica Ortodoxa, Sobrecarga de Operadores, Números de vírgula fixa</strong></summary>
+
+### Conceitos abordados
+- Forma Canónica Ortodoxa (construtor por omissão, construtor de cópia, operador de atribuição por cópia, destrutor)
+- Representação de números de vírgula fixa
+- Sobrecarga de operadores (comparação, aritmética, incremento/decremento, inserção em stream)
+- Funções membro estáticas
+- Polimorfismo ad-hoc
+
+---
+
+### ex00 — A Minha Primeira Classe em Forma Canónica Ortodoxa
+
+**Objectivo:** Introdução à Forma Canónica Ortodoxa e aos números de vírgula fixa.
+
+Implementar uma classe `Fixed` que representa um número de vírgula fixa com 8 bits fraccionários. O valor é armazenado internamente como um inteiro bruto, expondo apenas `getRawBits()` e `setRawBits()` nesta fase.
+
+**Ficheiros:**
+| Ficheiro | Descrição |
+|---|---|
+| `Fixed.hpp` | Definição da classe com `_fixedPoint` privado e `_frac_bits = 8` estático |
+| `Fixed.cpp` | Implementação dos quatro membros canónicos + `getRawBits` / `setRawBits` |
+| `main.cpp` | Testa construção, cópia, atribuição e leitura do valor bruto |
+
+---
+
+### ex01 — Rumo a uma classe de vírgula fixa mais útil
+
+**Objectivo:** Adicionar construtores de inteiro e float e funções de conversão.
+
+Estende a classe `Fixed` com dois novos construtores e duas funções membro de conversão, permitindo representar valores reais. Também sobrecarrega `operator<<` para impressão directa.
+
+- `Fixed(const int)` — converte um inteiro para vírgula fixa com deslocamento de 8 bits à esquerda.
+- `Fixed(const float)` — converte um float usando `roundf`.
+- `toInt()` — converte o valor de vírgula fixa de volta para inteiro.
+- `toFloat()` — converte o valor de vírgula fixa de volta para float.
+
+**Ficheiros:**
+| Ficheiro | Descrição |
+|---|---|
+| `Fixed.hpp` | Cabeçalho actualizado com novos construtores e funções de conversão |
+| `Fixed.cpp` | Implementação dos construtores int/float, `toInt`, `toFloat` e `operator<<` |
+| `main.cpp` | Testa todos os construtores, conversões e saída em stream |
+
+---
+
+### ex02 — Agora sim estamos a falar
+
+**Objectivo:** Sobrecarga completa de operadores — comparações, aritmética, incremento/decremento e min/max.
+
+A versão mais completa da classe `Fixed`. Implementa o conjunto completo de operadores necessários para usá-la como um tipo numérico real.
+
+- **Comparação:** `>`, `<`, `>=`, `<=`, `==`, `!=`
+- **Aritmética:** `+`, `-`, `*`, `/`
+- **Incremento/Decremento:** `++` / `--` (pré e pós), incrementando pelo menor ε representável (1 bit bruto)
+- **min/max estáticos:** quatro sobrecargas (referências constantes e não constantes)
+
+> ⚠️ A divisão por zero pode causar crash — é comportamento aceitável.
+
+**Ficheiros:**
+| Ficheiro | Descrição |
+|---|---|
+| `Fixed.hpp` | Definição completa da classe com todas as declarações de operadores |
+| `Fixed.cpp` | Implementação de todos os operadores e funções estáticas `min` / `max` |
+| `main.cpp` | Testes abrangentes: main do enunciado, comparações, aritmética, incremento/decremento e min/max |
+
+</details>
+
+---
+
 ## 🔧 Como Compilar
 
 Cada exercício tem o seu próprio `Makefile`. Para compilar:
@@ -262,7 +337,7 @@ make re     # fclean + make
 |---|---|
 | [CPP00](CPP00) | Namespaces, Classes, I/O, Estático |
 | [CPP01](CPP01) | Memória, Ponteiros, Referências, `new`/`delete` |
-| CPP02 | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
+| [CPP02](CPP02) | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
 | CPP03 | Herança |
 | CPP04 | Polimorfismo, Classes Abstractas, Interfaces |
 | CPP05 | Excepções |
