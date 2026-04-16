@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:00:06 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/13 14:00:07 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/04/16 13:07:18 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,31 @@ int main()
 {
 	{
 		std::cout << std::endl << "ClapTrap" << std::endl;
-		std::string target = "Sandro";
-		ClapTrap Joel("Joel");
-		Joel.attack(target);
-		Joel.beRepaired(2);
-		Joel.takeDamage(10);
-		Joel.takeDamage(2);
-		Joel.attack("Sandro");
+		std::string target = "BOT2";
+		ClapTrap BOT2("BOT2");
+		BOT2.attack(target);
+		BOT2.beRepaired(2);
+		BOT2.takeDamage(10);
+		BOT2.takeDamage(2);
+		BOT2.attack("BOT2");
 	}
 	{
 		std::cout << std::endl << "ScavTrap" << std::endl;
-		std::string target = "Sandro";
-		ScavTrap Tony("Tony");
-		Tony.attack(target);
-		Tony.beRepaired(2);
-		Tony.takeDamage(10);
-		Tony.takeDamage(2);
-		Tony.attack("Sandro");
-		Tony.guardGate();
+		std::string target = "BOT2";
+		ScavTrap BOT3("BOT3");
+		BOT3.attack(target);
+		BOT3.beRepaired(2);
+		BOT3.takeDamage(10);
+		BOT3.takeDamage(2);
+		BOT3.attack("BOT2");
+		BOT3.guardGate();
 	}
 	{
-		std::string target = "Sandro";
+		std::string target = "BOT2";
 		std::cout << std::endl << "pointerrr" << std::endl;
-		ClapTrap *Tome = new ScavTrap("Tome");
-		Tome->attack(target);
-		Tome->takeDamage(100);
-		delete Tome;
+		ClapTrap *BOT4 = new ScavTrap("BOT4");
+		BOT4->attack(target);
+		BOT4->takeDamage(100);
+		delete BOT4;
 	}
 }
