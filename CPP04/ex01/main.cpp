@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 15:13:47 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/13 16:22:26 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/04/21 15:47:14 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main()
 		std::cout << std::endl << "Test Subject" << std::endl << std::endl;
 		const Animal* j = new Dog();
 		const Animal* i = new Cat();
-		delete j;
+		delete j;//should not create a leak
 		delete i;
 	}
 	{
