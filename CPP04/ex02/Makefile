@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/13 15:27:06 by joaomart          #+#    #+#              #
-#    Updated: 2026/04/14 13:37:05 by joaomart         ###   ########.fr        #
+#    Updated: 2026/04/21 15:42:39 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ re: fclean all
 # Este comando é vital para confirmar que o delete[] do Brain funcionou 100 vezes!
 va: all
 	@echo "$(YELLOW)Analisando integridade da Deep Copy (Valgrind)...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
 

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 15:13:47 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/13 15:15:29 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/04/21 15:42:11 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int main()
 		i->makeSound(); //will output the cat sound!
 		j->makeSound();
 		meta->makeSound();
+		delete meta;
+		delete j;
+		delete i;
 	}
 	{
 		std::cout << std::endl<< std::endl;
@@ -38,6 +41,9 @@ int main()
 		i->makeSound(); //will output the cat sound!
 		j->makeSound();
 		meta->makeSound();
+		delete meta;
+		delete j;
+		delete i;
 	}
 	{
 		std::cout << std::endl<< std::endl;
@@ -49,5 +55,8 @@ int main()
 		i->makeSound(); //will output the cat sound!
 		j->makeSound();
 		meta->makeSound();
+		delete meta;
+		delete j;
+		delete i;
 	}
 }

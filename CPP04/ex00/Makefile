@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/13 14:56:36 by joaomart          #+#    #+#              #
-#    Updated: 2026/04/13 14:56:45 by joaomart         ###   ########.fr        #
+#    Updated: 2026/04/21 15:42:31 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ re: fclean all
 # O Valgrind aqui é o teu melhor amigo para detetar destrutores não-virtuais!
 va: all
 	@echo "$(YELLOW)Realizando check-up veterinário (Valgrind)...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
 
