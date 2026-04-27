@@ -6,13 +6,13 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 15:03:52 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/13 15:04:00 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/04/27 13:47:52 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cat.hpp"
 
-Cat::Cat() : Animal(){
+Cat::Cat() : Animal("Cat"){
 	std::cout << "Cat created" << std::endl;
 
 }

@@ -6,13 +6,13 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 15:09:34 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/13 15:11:41 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/04/27 13:47:22 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Dog.hpp"
 
-Dog::Dog() : Animal(){
+Dog::Dog() : Animal("Dog"){
 	std::cout << "Dog created" << std::endl;
 
 }

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 15:19:56 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/13 15:21:35 by joaomart         ###   ########.fr       */
+/*   Updated: 2026/04/27 13:50:27 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ WrongCat& WrongCat::operator=(const WrongCat& other) {
 }
 
 void	WrongCat::makeSound() const {
-	std::cout << "Meow Meow!" << std::endl;
+	std::cout << "WrongCat Meow Meow!" << std::endl;
 }
