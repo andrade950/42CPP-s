@@ -10,7 +10,7 @@
 ## 📁 Repository Structure
 
 ```
-cpp/
+cpp's/
 ├── cpp00/
 │   ├── ex00/   → Megaphone
 │   └── ex01/   → Phonebook
@@ -26,7 +26,14 @@ cpp/
 │   ├── ex00/   → My First Class in Orthodox Canonical Form
 │   ├── ex01/   → Towards a more useful fixed-point number class
 │   └── ex02/   → Now we're talking
-└── ...
+├── cpp03/
+│   ├── ex00/   → Aaaaand... OPEN!
+│   ├── ex01/   → Serena, my love!
+│   └── ex02/   → Repetitive work
+└── cpp04/
+    ├── ex00/   → Polymorphism
+    ├── ex01/   → I don't want to set the world on fire
+    └── ex02/   → Abstract class
 ```
 
 ---
@@ -311,6 +318,174 @@ The final and most complete version of the `Fixed` class. Implements the full se
 
 ---
 
+<details>
+<summary><strong>CPP03 — Inheritance</strong></summary>
+
+### Concepts covered
+- Class inheritance (`public` inheritance)
+- Constructor/destructor chaining (base constructed first, derived destroyed first)
+- Member function overriding
+- Protected attributes
+- Multiple inheritance
+- Virtual inheritance (diamond problem)
+
+---
+
+### ex00 — Aaaaand... OPEN!
+
+**Goal:** Introduction to classes and member functions.
+
+Implement a `ClapTrap` class with the following private attributes:
+
+| Attribute | Default value |
+|---|---|
+| Name | passed via constructor |
+| Hit points | 10 |
+| Energy points | 10 |
+| Attack damage | 0 |
+
+Public member functions:
+- `void attack(const std::string& target)` — reduces target's HP by attack damage, costs 1 energy point
+- `void takeDamage(unsigned int amount)` — reduces own HP by amount
+- `void beRepaired(unsigned int amount)` — restores HP by amount, costs 1 energy point
+
+> ⚠️ ClapTrap can't act if it has no HP or energy points left. Constructors and destructors must print messages.
+
+**Files:**
+| File | Description |
+|---|---|
+| `ClapTrap.hpp/.cpp` | ClapTrap class with all attributes and member functions |
+| `main.cpp` | Tests for attack, damage and repair |
+
+---
+
+### ex01 — Serena, my love!
+
+**Goal:** Introduction to inheritance and constructor/destructor chaining.
+
+Implement a `ScavTrap` class that inherits from `ClapTrap`. Its constructors, destructor and `attack()` print different messages. When a `ScavTrap` is created, the `ClapTrap` constructor runs first; destruction happens in reverse.
+
+| Attribute | Value |
+|---|---|
+| Hit points | 100 |
+| Energy points | 50 |
+| Attack damage | 20 |
+
+Special ability: `void guardGate()` — displays a message that ScavTrap is now in Gatekeeper mode.
+
+**Files:**
+| File | Description |
+|---|---|
+| `ClapTrap.hpp/.cpp` | Base class (updated with protected attributes) |
+| `ScavTrap.hpp/.cpp` | Derived class with overridden messages and `guardGate()` |
+| `main.cpp` | Tests showing construction/destruction chaining |
+
+---
+
+### ex02 — Repetitive work
+
+**Goal:** Practice inheritance with a second derived class.
+
+Implement a `FragTrap` class that also inherits from `ClapTrap`. Construction/destruction chaining must be shown.
+
+| Attribute | Value |
+|---|---|
+| Hit points | 100 |
+| Energy points | 100 |
+| Attack damage | 30 |
+
+Special ability: `void highFivesGuys(void)` — displays a positive high-fives request on standard output.
+
+**Files:**
+| File | Description |
+|---|---|
+| `ClapTrap.hpp/.cpp` | Base class |
+| `ScavTrap.hpp/.cpp` | From ex01 |
+| `FragTrap.hpp/.cpp` | New derived class with `highFivesGuys()` |
+| `main.cpp` | Tests for both ScavTrap and FragTrap |
+
+</details>
+
+---
+
+<details>
+<summary><strong>CPP04 — Subtype Polymorphism, Abstract Classes, Interfaces</strong></summary>
+
+### Concepts covered
+- Virtual functions and runtime polymorphism
+- Virtual destructors
+- Abstract classes (pure virtual functions)
+- Deep copy vs shallow copy
+- Heap-allocated objects and memory management
+- Pure abstract classes as interfaces
+
+---
+
+### ex00 — Polymorphism
+
+**Goal:** Understand virtual functions and subtype polymorphism.
+
+Implement a base class `Animal` with a protected `std::string type` attribute. Derive `Dog` and `Cat` from it, each initializing their `type` accordingly. Every animal exposes:
+
+- `virtual void makeSound()` — prints the appropriate sound for each derived class
+
+When called through a base-class pointer, `makeSound()` dispatches to the correct derived implementation.
+
+Also implement `WrongAnimal` and `WrongCat` (without `virtual`) to demonstrate what happens without polymorphism — `WrongCat` ends up printing `WrongAnimal`'s sound.
+
+**Files:**
+| File | Description |
+|---|---|
+| `Animal.hpp/.cpp` | Base class with virtual `makeSound()` and virtual destructor |
+| `Dog.hpp/.cpp` | Derived class, type = "Dog", barks |
+| `Cat.hpp/.cpp` | Derived class, type = "Cat", meows |
+| `WrongAnimal.hpp/.cpp` | Base class without virtual functions |
+| `WrongCat.hpp/.cpp` | Derived class to show non-polymorphic behaviour |
+| `main.cpp` | Tests polymorphic dispatch via `Animal*` pointers |
+
+---
+
+### ex01 — I don't want to set the world on fire
+
+**Goal:** Practice deep copy and heap-allocated member objects.
+
+Implement a `Brain` class containing an array of 100 `std::string` called `ideas`. Both `Dog` and `Cat` gain a private `Brain*` attribute — allocated with `new` in the constructor and deleted in the destructor.
+
+Key requirements:
+- An array of `Animal*` is created with half `Dog` and half `Cat`, then fully deleted — verifying that the virtual destructor calls the correct chain.
+- Copies of `Dog`/`Cat` must be **deep**: duplicating the `Brain` object, not just copying the pointer.
+
+> ⚠️ Check for memory leaks with valgrind.
+
+**Files:**
+| File | Description |
+|---|---|
+| `Brain.hpp/.cpp` | Brain class with `ideas[100]` array |
+| `Dog.hpp/.cpp` | Updated with `Brain*`, deep copy in copy constructor and assignment |
+| `Cat.hpp/.cpp` | Same as Dog |
+| `main.cpp` | Array allocation/deletion test and deep copy verification |
+
+---
+
+### ex02 — Abstract class
+
+**Goal:** Prevent instantiation of the base class using pure virtual functions.
+
+Extend the previous exercise by making `Animal` (or `AAnimal`) abstract. The `makeSound()` function becomes pure virtual (`= 0`), so it's impossible to instantiate `Animal` directly while everything else works as before.
+
+**Files:**
+| File | Description |
+|---|---|
+| `AAnimal.hpp/.cpp` | Abstract base class with pure virtual `makeSound()` |
+| `Dog.hpp/.cpp` | Concrete derived class |
+| `Cat.hpp/.cpp` | Concrete derived class |
+| `Brain.hpp/.cpp` | Unchanged from ex01 |
+| `main.cpp` | Same tests as ex01 — direct `AAnimal` instantiation must not compile |
+
+</details>
+
+---
+
 ## 🔧 How to Compile
 
 Each exercise has its own `Makefile`. To compile:
@@ -327,6 +502,7 @@ make        # compiles the project
 make clean  # removes object files
 make fclean # removes everything including the binary
 make re     # fclean + make
+make va     # make + valgrind
 ```
 
 ---
@@ -338,12 +514,10 @@ make re     # fclean + make
 | [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
 | [CPP01](CPP01) | Memory, Pointers, References, `new`/`delete` |
 | [CPP02](CPP02) | Orthodox Canonical Form, Operator Overloading |
-| CPP03 | Inheritance |
-| CPP04 | Polymorphism, Abstract Classes, Interfaces |
+| [CPP03](CPP03) | Inheritance |
+| [CPP04](CPP04) | Polymorphism, Abstract Classes |
 | CPP05 | Exceptions |
 | CPP06 | C++ Casts |
 | CPP07 | Templates |
 | CPP08 | STL Containers and Iterators |
 | CPP09 | STL Algorithms |
-
----
