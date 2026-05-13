@@ -5,13 +5,13 @@
 #                                                     +:+ +:+         +:+      #
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/05/13 12:51:10 by joaomart          #+#    #+#              #
-#    Updated: 2026/05/13 13:49:48 by joaomart         ###   ########.fr        #
+#    Created: 2026/05/13 14:00:40 by joaomart          #+#    #+#              #
+#    Updated: 2026/05/13 14:49:55 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # --- Program Name ---
-NAME        = identify
+NAME        = Array
 
 # --- Commands & Flags ---
 CC          = c++
@@ -22,7 +22,7 @@ RM          = rm -rf
 ASANFLAGS   = -fsanitize=address -fsanitize=leak -fsanitize=undefined -fno-omit-frame-pointer
 
 # --- Sources & Objects ---
-SRCS        = main.cpp Base.cpp
+SRCS        = main.cpp
 OBJ_DIR     = obj/
 OBJS        = $(addprefix $(OBJ_DIR), $(SRCS:.cpp=.o))
 
