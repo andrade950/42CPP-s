@@ -659,12 +659,12 @@ make asan   # (cpp05) recompila com AddressSanitizer + UBSan e executa
 
 | Módulo | Tema Principal |
 |---|---|
-| [CPP00](cpp00) | Namespaces, Classes, I/O, Static |
-| [CPP01](cpp01) | Memória, Ponteiros, Referências, `new`/`delete` |
-| [CPP02](cpp02) | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
-| [CPP03](cpp03) | Herança |
-| [CPP04](cpp04) | Polimorfismo, Classes Abstratas |
-| [CPP05](cpp05) | Exceções, Classes Abstratas, Despacho por ponteiros para funções |
+| [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
+| [CPP01](CPP01) | Memória, Ponteiros, Referências, `new`/`delete` |
+| [CPP02](CPP02) | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
+| [CPP03](CPP03) | Herança |
+| [CPP04](CPP04) | Polimorfismo, Classes Abstratas |
+| [CPP05](CPP05) | Exceções, Classes Abstratas, Despacho por ponteiros para funções |
 | CPP06 | Casts em C++ |
 | CPP07 | Templates |
 | CPP08 | Contentores e Iteradores STL |
