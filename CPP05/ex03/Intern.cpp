@@ -11,46 +11,77 @@
 /* ************************************************************************** */
 
 #include "Intern.hpp"
+#include "AForm.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
+#include <iostream>
 
-Intern::Intern(void) {
+// The factory functions live here, so the forms don't need to know about Intern.
+namespace
+{
+    AForm *createShrubbery(const std::string &target)
+    {
+        return (new ShrubberyCreationForm(target));
+    }
+
+    AForm *createRobotomy(const std::string &target)
+    {
+        return (new RobotomyRequestForm(target));
+    }
+
+    AForm *createPardon(const std::string &target)
+    {
+        return (new PresidentialPardonForm(target));
+    }
+}
+
+Intern::Intern()
+{
     std::cout << "Intern : Default Constructor" << std::endl;
-};
+}
 
-Intern::Intern(const Intern &copy) {
-    *this = copy;
+Intern::Intern(const Intern &copy)
+{
+    (void)copy;
     std::cout << "Intern : Copy Constructor" << std::endl;
-};
+}
 
-Intern &Intern::operator=(const Intern &copy) {
+Intern &Intern::operator=(const Intern &copy)
+{
     (void)copy;
     std::cout << "Intern : Assignment Operator" << std::endl;
     return (*this);
-};
+}
 
-Intern::~Intern(void) {
+Intern::~Intern()
+{
     std::cout << "Intern : Destructor" << std::endl;
-};
+}
 
-AForm   *Intern::makeForm(std::string formName, std::string target) {
-    AForm *(*form[3])(std::string const &target) = {
-        &ShrubberyCreationForm::createShrubberyCreationForm,
-        &RobotomyRequestForm::createRobotomyRequestForm,
-        &PresidentialPardonForm::createPresidentialPardonForm
-    };
-    std::string formNames[] = {
+AForm *Intern::makeForm(const std::string &formName, const std::string &target) const
+{
+    typedef AForm *(*FormCreator)(const std::string &);
+
+    const std::string names[3] = {
         "shrubbery creation",
         "robotomy request",
         "presidential pardon"
     };
+    const FormCreator creators[3] = {
+        &createShrubbery,
+        &createRobotomy,
+        &createPardon
+    };
 
     for (int i = 0; i < 3; i++)
     {
-        if (formNames[i] == formName)
+        if (names[i] == formName)
         {
             std::cout << "Intern creates " << formName << std::endl;
-            return (form[i](target));
+            return (creators[i](target));
         }
     }
-    std::cout << "Intern cannot create " << formName << " Form" << std::endl;
-    throw (AForm::FormCreationException());
-};
+    std::cout << "Intern cannot create \"" << formName << "\": unknown form" << std::endl;
+    throw FormCreationException();
+}

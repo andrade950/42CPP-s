@@ -11,62 +11,70 @@
 /* ************************************************************************** */
 
 #include "RobotomyRequestForm.hpp"
+#include <cstdlib>
+#include <ctime>
 
-RobotomyRequestForm::RobotomyRequestForm(void) : AForm("Default", 72, 45), _target("Default") {
-        std::cout << "Robotomy : Default Constructor" << std::endl;
-};
-
-RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRequestForm", 72, 45), _target(target) {
-        std::cout << "Robotomy : Name Constructor" << std::endl;
-};
-
-RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &copy) : AForm(copy), _target(copy._target) {
-        std::cout << "Robotomy : Copy Constructor" << std::endl;
-};
-
-RobotomyRequestForm::~RobotomyRequestForm() {
-        std::cout << "Robotomy : Destructor"<< std::endl;
-};
-
-RobotomyRequestForm     &RobotomyRequestForm::operator=(const RobotomyRequestForm &copy) {
-        if (this != &copy)
-        {
-                AForm::operator=(copy);
-                _target = copy._target;
-                std::cout << "Robotomy : Assignment Operator" << std::endl;
-        }
-        return (*this);
-};
-
-std::string     RobotomyRequestForm::getTarget() const {
-        return (this->_target);
-};
-
-void    RobotomyRequestForm::execute(Bureaucrat const &bureaucrat) const 
+RobotomyRequestForm::RobotomyRequestForm()
+    : AForm("RobotomyRequestForm", 72, 45), _target("Default")
 {
-        try {
-                if (!getIsSigned())
-                        throw FormNotSignedException();
-                if (bureaucrat.getGrade() > this->getExecute())
-                        throw GradeTooLowException();
-                std::srand(std::time(NULL));
-                std::cout << "BZZZZZ... drilling noises" << std::endl;
-                if(rand() % 2 == 0)
-                {
-                        std::cout << _target << " has been robotomized sucessfully" << std::endl;
-                }
-                else
-                {
-                        std::cout << _target << " robotomized Failed ! " << std::endl;
-                }
-        }
-        catch (std::exception& e) {
-                std::cerr << e.what() << std::endl;
-        }
-};
+    std::cout << "Robotomy : Default Constructor" << std::endl;
+}
 
+RobotomyRequestForm::RobotomyRequestForm(const std::string &target)
+    : AForm("RobotomyRequestForm", 72, 45), _target(target)
+{
+    std::cout << "Robotomy : Name Constructor" << std::endl;
+}
 
-std::ostream    &operator<<(std::ostream &out, RobotomyRequestForm const &form) {
-        out << "RobotomyRequestForm : " << form.getName() << ", Target: " << form.getTarget() << ", Is signed: " << form.getIsSigned() << std::endl;
-        return (out);
-};
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &copy)
+    : AForm(copy), _target(copy._target)
+{
+    std::cout << "Robotomy : Copy Constructor" << std::endl;
+}
+
+RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &copy)
+{
+    if (this != &copy)
+    {
+        AForm::operator=(copy);
+        _target = copy._target;
+        std::cout << "Robotomy : Assignment Operator" << std::endl;
+    }
+    return (*this);
+}
+
+RobotomyRequestForm::~RobotomyRequestForm()
+{
+    std::cout << "Robotomy : Destructor" << std::endl;
+}
+
+const std::string &RobotomyRequestForm::getTarget() const
+{
+    return (_target);
+}
+
+void RobotomyRequestForm::action() const
+{
+    // Seed only once per program: reseeding on every call with time(NULL)
+    // gives identical results for calls made within the same second.
+    static bool seeded = false;
+    if (!seeded)
+    {
+        std::srand(static_cast<unsigned int>(std::time(NULL)));
+        seeded = true;
+    }
+
+    std::cout << "BZZZZZ... drilling noises" << std::endl;
+    if (std::rand() % 2 == 0)
+        std::cout << _target << " has been robotomized successfully" << std::endl;
+    else
+        std::cout << "The robotomy of " << _target << " failed" << std::endl;
+}
+
+std::ostream &operator<<(std::ostream &out, const RobotomyRequestForm &form)
+{
+    out << "RobotomyRequestForm: " << form.getName()
+        << ", Target: " << form.getTarget()
+        << ", Signed: " << (form.getIsSigned() ? "Yes" : "No");
+    return (out);
+}

@@ -10,63 +10,61 @@
 #                                                                              #
 # **************************************************************************** #
 
-# --- Configurações de Protocolo ---
 CC          = c++
 CFLAGS      = -Wall -Wextra -Werror -std=c++98 -g
+DEPFLAGS    = -MMD -MP
+ASAN        = -fsanitize=address -fsanitize=undefined
 NAME        = AForm
 
-# --- Diretórios ---
 OBJ_DIR     = objs
 
-# --- Arquivos do Departamento ---
 SRCS        = main.cpp Bureaucrat.cpp AForm.cpp \
               ShrubberyCreationForm.cpp \
               RobotomyRequestForm.cpp \
               PresidentialPardonForm.cpp
 
-# Transforma a lista de SRCS em caminhos dentro da pasta OBJ_DIR
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
+DEPS        = $(OBJS:.o=.d)
 
-# --- Processamento de Requerimentos ---
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "\n$(YELLOW)Arquivando múltiplos protocolos em $(NAME)...$(RESET)"
+	@printf "\n$(YELLOW)Arquivando múltiplos protocolos em $(NAME)...$(RESET)\n"
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)Ministério em pleno funcionamento! $(NAME) pronto. 🏛️📂✨$(RESET)"
+	@printf "$(GREEN)Ministério em pleno funcionamento! $(NAME) pronto.$(RESET)\n"
 
-# Regra para compilar os .o dentro da pasta objs/
-# O comando 'mkdir -p' garante que a pasta existe sem dar erro se já existir
+# Objects depend on their headers through the generated .d files (-MMD),
+# so editing a .hpp recompiles everything that includes it.
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
-	@echo "$(CYAN)Processando subsetor:$(RESET) $(notdir $<)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "$(CYAN)Processando subsetor:$(RESET) $(notdir $<)\n"
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
-# --- Limpeza de Registos ---
 clean:
-	@echo "$(RED)Triturando documentos obsoletos (objetos)...$(RESET)"
+	@printf "$(RED)Triturando documentos obsoletos (objetos)...$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
 	@rm -f *_shrubbery
 
 fclean: clean
-	@echo "$(RED)Encerrando todos os departamentos (binário)...$(RESET)"
+	@printf "$(RED)Encerrando todos os departamentos (binário)...$(RESET)\n"
 	@rm -f $(NAME)
 
 re: fclean all
 
-# --- Auditoria e Inspeção ---
+# --- Debug ---
 va: all
-	@echo "$(PURPLE)Iniciando auditoria de memória obrigatória...$(RESET)"
+	@printf "$(PURPLE)Valgrind...$(RESET)\n"
 	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 asan: fclean
-	@echo "$(PURPLE)Rastreando integridade de sub-formulários (ASAN)...$(RESET)"
-	@$(CC) $(CFLAGS) -fsanitize=address -fsanitize=leak -fsanitize=undefined $(SRCS) -o $(NAME)
+	@printf "$(PURPLE)AddressSanitizer...$(RESET)\n"
+	@$(CC) $(CFLAGS) $(ASAN) $(SRCS) -o $(NAME)
 	@./$(NAME)
+
+-include $(DEPS)
 
 .PHONY: all clean fclean re va asan
 
-# --- Cores do Arquivo Nacional ---
 GREEN       = \033[1;32m
 YELLOW      = \033[1;33m
 RED         = \033[1;31m

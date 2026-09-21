@@ -12,32 +12,24 @@
 
 #pragma once
 
-#include "Bureaucrat.hpp"
 #include "AForm.hpp"
-
-class AForm;
-class Bureaucrat;
 
 class RobotomyRequestForm : public AForm
 {
     private:
         std::string     _target;
+
+        virtual void    action() const;
+
     public:
-        RobotomyRequestForm(void);
-        RobotomyRequestForm(std::string target);
+        RobotomyRequestForm();
+        RobotomyRequestForm(const std::string &target);
         RobotomyRequestForm(const RobotomyRequestForm &copy);
         virtual ~RobotomyRequestForm();
 
         RobotomyRequestForm &operator=(const RobotomyRequestForm &copy);
-        
-        std::string     getTarget() const;
-        
-        void    execute(Bureaucrat const &bureaucrat) const;
 
-        static AForm *createRobotomyRequestForm(std::string const &target)
-        {
-            return (new RobotomyRequestForm(target));
-        }
+        const std::string   &getTarget() const;
 };
 
-std::ostream    &operator<<(std::ostream &out, RobotomyRequestForm const &form);
+std::ostream &operator<<(std::ostream &out, const RobotomyRequestForm &form);

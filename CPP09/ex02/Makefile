@@ -5,13 +5,13 @@
 #                                                     +:+ +:+         +:+      #
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/09/16 09:51:59 by joaomart          #+#    #+#              #
-#    Updated: 2026/09/16 09:55:06 by joaomart         ###   ########.fr        #
+#    Created: 2026/09/16 09:58:08 by joaomart          #+#    #+#              #
+#    Updated: 2026/09/16 09:58:56 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # --- Program Name ---
-NAME        = RPN
+NAME        = PmergeMe
 
 # --- Commands & Flags ---
 CC          = c++
@@ -22,7 +22,7 @@ RM          = rm -rf
 ASANFLAGS   = -fsanitize=address -fsanitize=leak -fsanitize=undefined -fno-omit-frame-pointer
 
 # --- Sources & Objects ---
-SRCS        = main.cpp RPN.cpp
+SRCS        = main.cpp PmergeMe.cpp
 OBJ_DIR     = obj/
 OBJS        = $(addprefix $(OBJ_DIR), $(SRCS:.cpp=.o))
 
@@ -53,12 +53,12 @@ re: fclean all
 asan: CFLAGS += $(ASANFLAGS)
 asan: re
 	@echo "$(GREEN)🚀 Running with AddressSanitizer...$(RESET)"
-	@./$(NAME) "8 9 +"
+	@./$(NAME) 3 5 9 7 4 2 8 1 6
 
 # Run Valgrind on the current binary
 va: all
 	@echo "$(GREEN)🔍 Running Valgrind...$(RESET)"
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME) "8 9 +"
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./$(NAME) 3 5 9 7 4 2 8 1 6
 
 .PHONY: all clean fclean re asan va
 

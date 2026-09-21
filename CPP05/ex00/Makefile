@@ -10,56 +10,60 @@
 #                                                                              #
 # **************************************************************************** #
 
-# --- Configurações de Protocolo ---
-CC			= c++
-CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
-NAME		= Bureaucrat
+CC          = c++
+CFLAGS      = -Wall -Wextra -Werror -std=c++98 -g
+DEPFLAGS    = -MMD -MP
+ASAN        = -fsanitize=address -fsanitize=undefined
+NAME        = Bureaucrat
 
-# --- Arquivo de Registos ---
-SRCS		= main.cpp Bureaucrat.cpp
-OBJS		= $(SRCS:.cpp=.o)
+OBJ_DIR     = objs
 
-# --- Regras de Atendimento ---
+SRCS        = main.cpp Bureaucrat.cpp
+
+OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
+DEPS        = $(OBJS:.o=.d)
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "\n$(YELLOW)Imprimindo formulários para $(NAME)...$(RESET)"
+	@printf "\n$(YELLOW)Imprimindo formulários para $(NAME)...$(RESET)\n"
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)Guiché aberto! $(NAME) está pronto para carimbar. 📝☕$(RESET)"
+	@printf "$(GREEN)Guichê aberto! $(NAME) está pronto para carimbar.$(RESET)\n"
 
-%.o: %.cpp
-	@echo "$(CYAN)Preenchendo campo:$(RESET) $<"
-	@$(CC) $(CFLAGS) -c $< -o $@
+# Objects depend on their headers through the generated .d files (-MMD),
+# so editing a .hpp recompiles everything that includes it.
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(OBJ_DIR)
+	@printf "$(CYAN)Preenchendo campo:$(RESET) $(notdir $<)\n"
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
-# --- Limpeza de Arquivo ---
 clean:
-	@echo "$(RED)Triturando papelada antiga (objetos)...$(RESET)"
-	@rm -f $(OBJS)
+	@printf "$(RED)Triturando papelada antiga (objetos)...$(RESET)\n"
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@echo "$(RED)Encerrando o departamento (binário)...$(RESET)"
+	@printf "$(RED)Encerrando o departamento (binário)...$(RESET)\n"
 	@rm -f $(NAME)
 
 re: fclean all
 
-# --- Auditoria (Debug) ---
-# Auditoria de memória - Porque um burocrata não admite falhas!
+# --- Debug ---
 va: all
-	@echo "$(MAGENTA)Iniciando auditoria fiscal (Valgrind)...$(RESET)"
+	@printf "$(PURPLE)Valgrind...$(RESET)\n"
 	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
-# Auditoria Sanitária (Address Sanitizer)
 asan: fclean
-	@echo "$(MAGENTA)Verificando contaminação de memória (ASAN)...$(RESET)"
-	@$(CC) $(CFLAGS) -fsanitize=address -fsanitize=leak -fsanitize=undefined $(SRCS) -o $(NAME)
+	@printf "$(PURPLE)AddressSanitizer...$(RESET)\n"
+	@$(CC) $(CFLAGS) $(ASAN) $(SRCS) -o $(NAME)
 	@./$(NAME)
+
+-include $(DEPS)
 
 .PHONY: all clean fclean re va asan
 
-# --- Cores (O código de cores do Ministério) ---
-GREEN		= \033[1;32m
-YELLOW		= \033[1;33m
-RED			= \033[1;31m
-CYAN		= \033[1;36m
-MAGENTA		= \033[1;35m
-RESET		= \033[0m
+GREEN       = \033[1;32m
+YELLOW      = \033[1;33m
+RED         = \033[1;31m
+CYAN        = \033[1;36m
+PURPLE      = \033[1;35m
+RESET       = \033[0m

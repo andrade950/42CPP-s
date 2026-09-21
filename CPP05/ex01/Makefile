@@ -10,56 +10,60 @@
 #                                                                              #
 # **************************************************************************** #
 
-# --- Configurações de Estado ---
-CC			= c++
-CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
-NAME		= Form
+CC          = c++
+CFLAGS      = -Wall -Wextra -Werror -std=c++98 -g
+DEPFLAGS    = -MMD -MP
+ASAN        = -fsanitize=address -fsanitize=undefined
+NAME        = Form
 
-# --- Documentação ---
-SRCS		= main.cpp Bureaucrat.cpp Form.cpp
-OBJS		= $(SRCS:.cpp=.o)
+OBJ_DIR     = objs
 
-# --- Regras de Processamento ---
+SRCS        = main.cpp Bureaucrat.cpp Form.cpp
+
+OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
+DEPS        = $(OBJS:.o=.d)
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "\n$(YELLOW)Carimbando e numerando formulários para $(NAME)...$(RESET)"
+	@printf "\n$(YELLOW)Carimbando e numerando formulários para $(NAME)...$(RESET)\n"
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)Ministério do C++: $(NAME) está pronto para assinar! 🖋️📜$(RESET)"
+	@printf "$(GREEN)Ministério do C++: $(NAME) está pronto para assinar!$(RESET)\n"
 
-%.o: %.cpp
-	@echo "$(CYAN)Autenticando documento:$(RESET) $(notdir $<)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+# Objects depend on their headers through the generated .d files (-MMD),
+# so editing a .hpp recompiles everything that includes it.
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(OBJ_DIR)
+	@printf "$(CYAN)Autenticando documento:$(RESET) $(notdir $<)\n"
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
-# --- Gestão de Resíduos ---
 clean:
-	@echo "$(RED)Queimando evidências (objetos)...$(RESET)"
-	@rm -f $(OBJS)
+	@printf "$(RED)Queimando evidências (objetos)...$(RESET)\n"
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@echo "$(RED)Encerrando o departamento permanentemente (binário)...$(RESET)"
+	@printf "$(RED)Encerrando o departamento permanentemente (binário)...$(RESET)\n"
 	@rm -f $(NAME)
 
 re: fclean all
 
-# --- Auditoria Interna ---
-# Verificação de fugas de memória no sistema de arquivos
+# --- Debug ---
 va: all
-	@echo "$(PURPLE)Auditoria Fiscal do Valgrind em curso...$(RESET)"
+	@printf "$(PURPLE)Valgrind...$(RESET)\n"
 	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
-# Teste de Estresse de Segurança
 asan: fclean
-	@echo "$(PURPLE)Inspecionando integridade dos documentos (ASAN)...$(RESET)"
-	@$(CC) $(CFLAGS) -fsanitize=address -fsanitize=leak -fsanitize=undefined $(SRCS) -o $(NAME)
+	@printf "$(PURPLE)AddressSanitizer...$(RESET)\n"
+	@$(CC) $(CFLAGS) $(ASAN) $(SRCS) -o $(NAME)
 	@./$(NAME)
+
+-include $(DEPS)
 
 .PHONY: all clean fclean re va asan
 
-# --- Cores do Arquivo Nacional ---
-GREEN		= \033[1;32m
-YELLOW		= \033[1;33m
-RED			= \033[1;31m
-CYAN		= \033[1;36m
-PURPLE		= \033[1;35m
-RESET		= \033[0m
+GREEN       = \033[1;32m
+YELLOW      = \033[1;33m
+RED         = \033[1;31m
+CYAN        = \033[1;36m
+PURPLE      = \033[1;35m
+RESET       = \033[0m

@@ -10,67 +10,61 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME        = Intern
-
-# --- Compiler & Flags ---
 CC          = c++
 CFLAGS      = -Wall -Wextra -Werror -std=c++98 -g
-ASAN        = -fsanitize=address -fsanitize=leak -fsanitize=undefined
+DEPFLAGS    = -MMD -MP
+ASAN        = -fsanitize=address -fsanitize=undefined
+NAME        = Intern
 
-# --- Directories ---
-OBJ_DIR     = obj
+OBJ_DIR     = objs
 
-# --- Source Files ---
-SRCS         = main.cpp Bureaucrat.cpp AForm.cpp Intern.cpp \
-               ShrubberyCreationForm.cpp \
-               RobotomyRequestForm.cpp \
-               PresidentialPardonForm.cpp
+SRCS        = main.cpp Bureaucrat.cpp AForm.cpp Intern.cpp \
+              ShrubberyCreationForm.cpp \
+              RobotomyRequestForm.cpp \
+              PresidentialPardonForm.cpp
 
-# --- Objects ---
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
-
-# --- Rules ---
+DEPS        = $(OBJS:.o=.d)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "\n$(YELLOW)Compilando $(NAME)...$(RESET)"
+	@printf "\n$(YELLOW)Compilando $(NAME)...$(RESET)\n"
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)✅ $(NAME) pronto para uso!$(RESET)"
+	@printf "$(GREEN)$(NAME) pronto para uso!$(RESET)\n"
 
+# Objects depend on their headers through the generated .d files (-MMD),
+# so editing a .hpp recompiles everything that includes it.
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
-	@printf "$(CYAN)Compilando: $(RESET)%-30s " "$<"
-	@$(CC) $(CFLAGS) -c $< -o $@
-	@printf "$(GREEN)[OK]$(RESET)\n"
+	@printf "$(CYAN)Compilando:$(RESET) $(notdir $<)\n"
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 clean:
+	@printf "$(RED)Limpeza: objetos e ficheiros temporários removidos.$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
 	@rm -f *_shrubbery
-	@echo "$(RED)Limpeza:$(RESET) Objetos e ficheiros temporários removidos."
 
 fclean: clean
+	@printf "$(RED)Limpeza total: executável removido.$(RESET)\n"
 	@rm -f $(NAME)
-	@echo "$(RED)Limpeza Total:$(RESET) Executável $(NAME) removido."
 
 re: fclean all
 
-# --- Debug & Test Rules ---
-
-# Corre com Valgrind para verificação de memória
+# --- Debug ---
 va: all
-	@echo "$(PURPLE)Iniciando auditoria de memória (Valgrind)...$(RESET)"
+	@printf "$(PURPLE)Valgrind...$(RESET)\n"
 	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
-# Compila e corre com Address Sanitizer
 asan: fclean
-	@echo "$(PURPLE)Rastreando integridade (ASAN)...$(RESET)"
+	@printf "$(PURPLE)AddressSanitizer...$(RESET)\n"
 	@$(CC) $(CFLAGS) $(ASAN) $(SRCS) -o $(NAME)
 	@./$(NAME)
 
+-include $(DEPS)
+
 .PHONY: all clean fclean re va asan
 
-# --- Output Styling ---
 GREEN       = \033[1;32m
 YELLOW      = \033[1;33m
 RED         = \033[1;31m

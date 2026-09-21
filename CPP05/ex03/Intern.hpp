@@ -12,18 +12,27 @@
 
 #pragma once
 
-#include "AForm.hpp"
-#include "ShrubberyCreationForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "PresidentialPardonForm.hpp"
+#include <string>
+#include <exception>
+
+class AForm;
 
 class Intern
 {
-    public :
-        Intern(void);
+    public:
+        Intern();
         Intern(const Intern &copy);
         Intern &operator=(const Intern &copy);
-        ~Intern(void);
+        ~Intern();
 
-        AForm *makeForm(std::string formName, std::string target);
+        AForm *makeForm(const std::string &formName, const std::string &target) const;
+
+        class FormCreationException : public std::exception
+        {
+            public:
+                const char *what() const throw()
+                {
+                    return ("Form creation failed");
+                }
+        };
 };

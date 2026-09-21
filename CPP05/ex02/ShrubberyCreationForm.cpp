@@ -11,20 +11,24 @@
 /* ************************************************************************** */
 
 #include "ShrubberyCreationForm.hpp"
+#include <fstream>
 
-ShrubberyCreationForm::ShrubberyCreationForm(void) : AForm("Default", 145, 137), _target("Default")
+ShrubberyCreationForm::ShrubberyCreationForm()
+    : AForm("ShrubberyCreationForm", 145, 137), _target("Default")
 {
-    std::cout << "Shrubbery: Default constructor called" << std::endl;
+    std::cout << "Shrubbery: Default Constructor" << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : AForm("ShrubberyCreationForm", 145, 137), _target(target)
+ShrubberyCreationForm::ShrubberyCreationForm(const std::string &target)
+    : AForm("ShrubberyCreationForm", 145, 137), _target(target)
 {
-    std::cout << "Shrubbery: Constructor called" << std::endl;
+    std::cout << "Shrubbery: Name Constructor" << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &copy) : AForm(copy), _target(copy._target)
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &copy)
+    : AForm(copy), _target(copy._target)
 {
-    std::cout << "Shrubbery: Copy constructor called" << std::endl;
+    std::cout << "Shrubbery: Copy Constructor" << std::endl;
 }
 
 ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationForm &copy)
@@ -33,64 +37,47 @@ ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationF
     {
         AForm::operator=(copy);
         _target = copy._target;
-        std::cout << "Shrubbery: Assignment operator called" << std::endl;
+        std::cout << "Shrubbery: Assignment Operator" << std::endl;
     }
     return (*this);
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
-    std::cout << "Shrubbery: Destructor called" << std::endl;
+    std::cout << "Shrubbery: Destructor" << std::endl;
 }
 
-std::string ShrubberyCreationForm::getTarget() const
+const std::string &ShrubberyCreationForm::getTarget() const
 {
-    return (this->_target);
+    return (_target);
 }
 
-void ShrubberyCreationForm::execute(Bureaucrat const &executor) const
+void ShrubberyCreationForm::action() const
 {
-    // 1. Verificações de segurança antes de abrir o ficheiro
-    if (!this->getIsSigned())
-        throw AForm::FormNotSignedException();
+    std::string filename = _target + "_shrubbery";
+    std::ofstream file(filename.c_str());
 
-    if (executor.getGrade() > this->getExecute())
-        throw AForm::GradeTooLowTooExecute();
+    if (!file.is_open())
+        throw FileNotOpenedException();
 
-    // 2. Tentativa de criação do ficheiro e escrita da árvore
-    try 
-    {
-        std::string filename = this->getTarget() + "_shrubbery";
-        std::ofstream file(filename.c_str());
-
-        if (!file.is_open())
-            throw AForm::FileNotOpenedException();
-		
-        file << "          v .   ._, |_  .," << std::endl;
-        file << "       `-._\\/  .  \\ /    |/_" << std::endl;
-        file << "           \\  _\\, y | \\//" << std::endl;
-        file << "     _\\_.___\\, \\/ -.\\||" << std::endl;
-        file << "       `7-,--.`._||  / / ," << std::endl;
-        file << "       /'     `-. `./ / |/_." << std::endl;
-        file << "                 |    |//" << std::endl;
-        file << "                 |_    /" << std::endl;
-        file << "                 |-   |" << std::endl;
-        file << "                 |   =|" << std::endl;
-        file << "                 |    |" << std::endl;
-        file << "----------------/ ,  . \\--------._" << std::endl;
-
-        file.close();
-        std::cout << executor.getName() << " executed " << this->getName() << std::endl;
-    }
-    catch (const std::exception& e) 
-    {
-        std::cerr << "Execution error: " << e.what() << std::endl;
-        throw; 
-    }
+    file << "          v .   ._, |_  .," << std::endl;
+    file << "       `-._\\/  .  \\ /    |/_" << std::endl;
+    file << "           \\  _\\, y | \\//" << std::endl;
+    file << "     _\\_.___\\, \\/ -.\\||" << std::endl;
+    file << "       `7-,--.`._||  / / ," << std::endl;
+    file << "       /'     `-. `./ / |/_." << std::endl;
+    file << "                 |    |//" << std::endl;
+    file << "                 |_    /" << std::endl;
+    file << "                 |-   |" << std::endl;
+    file << "                 |   =|" << std::endl;
+    file << "                 |    |" << std::endl;
+    file << "----------------/ ,  . \\--------._" << std::endl;
 }
 
-std::ostream    &operator<<(std::ostream &out, const ShrubberyCreationForm &form)
+std::ostream &operator<<(std::ostream &out, const ShrubberyCreationForm &form)
 {
-    std::cout << "ShrubberyCreationForm : " << form.getName() << ", Target: " << form.getTarget() << ", Is signed: " << form.getIsSigned() << std::endl;
+    out << "ShrubberyCreationForm: " << form.getName()
+        << ", Target: " << form.getTarget()
+        << ", Signed: " << (form.getIsSigned() ? "Yes" : "No");
     return (out);
-};
+}

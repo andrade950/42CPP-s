@@ -12,30 +12,34 @@
 
 #pragma once
 
-#include "Bureaucrat.hpp"
+#include <string>
+#include <iostream>
+#include <exception>
+
 class Bureaucrat;
 
-class Form 
+class Form
 {
     private:
-        const std::string       _formName;
-        bool                    _isSigned;
-        const int               _gradeTosign;
-        const int               _gradeToexecute;
+        const std::string   _formName;
+        bool                _isSigned;
+        const int           _gradeTosign;
+        const int           _gradeToexecute;
+
     public:
-        Form(void);
-        Form(std::string form_name, int gradeSign, int gradeExecute);
+        Form();
+        Form(const std::string &form_name, int gradeSign, int gradeExecute);
         Form(const Form &copy);
         ~Form();
 
         Form &operator=(const Form &copy);
 
-        std::string     getName() const;
-        bool            getIsSigned() const;
-        int             getSign() const;
-        int             getExecute() const;
+        const std::string   &getName() const;
+        bool                getIsSigned() const;
+        int                 getSign() const;
+        int                 getExecute() const;
 
-        void            beSigned(Bureaucrat &bureaucrat);
+        void                beSigned(const Bureaucrat &bureaucrat);
 
         class GradeTooHighException : public std::exception
         {
@@ -55,4 +59,5 @@ class Form
                 }
         };
 };
-std::ostream &operator<<(std::ostream &out, Form &form);
+
+std::ostream &operator<<(std::ostream &out, const Form &form);

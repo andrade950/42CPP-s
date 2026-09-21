@@ -12,12 +12,9 @@
 
 #include "Bureaucrat.hpp"
 #include "AForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "ShrubberyCreationForm.hpp"
 #include "Intern.hpp"
+#include <iostream>
 
-// Cores para o terminal
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
@@ -25,83 +22,86 @@
 #define CYAN    "\033[36m"
 #define BOLD    "\033[1m"
 
-void printHeader(const std::string& title) {
+static void printHeader(const std::string &title)
+{
     std::cout << "\n" << BOLD << CYAN;
     std::cout << "===================================================" << std::endl;
     std::cout << "  " << title << std::endl;
     std::cout << "===================================================" << RESET << std::endl;
 }
 
-void testInternComprehensive() {
+static void testInternComprehensive()
+{
     printHeader("1. TESTING INTERN FORM CREATION");
-    
+
     Intern someRandomIntern;
     const int numForms = 4;
-    AForm* forms[numForms];
-    
-    // Nomes dos formulários conforme esperado pela lógica do Intern
-    std::string formNames[] = {
+    AForm *forms[numForms];
+
+    const std::string formNames[numForms] = {
         "shrubbery creation",
         "robotomy request",
         "presidential pardon",
         "invalid form"
     };
-    
+    const std::string targets[numForms] = {"garden", "Bender", "Arthur Dent", "nobody"};
+
     for (int i = 0; i < numForms; i++) {
         std::cout << YELLOW << "\nAttempting to create: " << RESET << formNames[i] << "..." << std::endl;
         try {
-            forms[i] = someRandomIntern.makeForm(formNames[i], "Target_" + formNames[i]);
-            if (forms[i])
-                std::cout << GREEN << "Result: " << RESET << *forms[i] << std::endl;
-        } catch (const std::exception& e) {
-            std::cout << RED << "Error: " << RESET << "Intern could not create form: " << e.what() << std::endl;
+            forms[i] = someRandomIntern.makeForm(formNames[i], targets[i]);
+            std::cout << GREEN << "Result:\n" << RESET << *forms[i] << std::endl;
+        } catch (const std::exception &e) {
+            std::cout << RED << "Error: " << RESET << e.what() << std::endl;
             forms[i] = NULL;
         }
     }
 
     printHeader("2. TESTING BUREAUCRAT INTERACTION");
-    
+
     Bureaucrat boss("The Boss", 1);
-    Bureaucrat intern_dev("Junior Dev", 140);
+    Bureaucrat junior("Junior Dev", 140);
 
     for (int i = 0; i < numForms; i++) {
         if (forms[i]) {
             std::cout << "\n--- Processing: " << forms[i]->getName() << " ---" << std::endl;
-            
-            // Tentativa de assinatura por alguém de nível baixo
-            intern_dev.signForm(*forms[i]);
-            
-            // Assinatura e Execução pelo Chefe
+
+            junior.signForm(*forms[i]);
+            junior.executeForm(*forms[i]);
+
             boss.signForm(*forms[i]);
-            boss.execute(*forms[i]);
-            
-            // Limpeza de memória
+            boss.executeForm(*forms[i]);
+
             delete forms[i];
             std::cout << GREEN << "Form deleted successfully." << RESET << std::endl;
         }
     }
 }
 
-void testEdgeCases() {
+static void testEdgeCases()
+{
     printHeader("3. EDGE CASES & ROBUSTNESS");
-    
+
     Intern lucky;
-    AForm* f;
+    const std::string names[] = {"", "ROBOTOMY REQUEST", " robotomy request", "robotomy request "};
 
-    std::cout << YELLOW << "Testing empty strings:" << RESET << std::endl;
-    f = lucky.makeForm("", "");
-    if (f) delete f;
-
-    std::cout << YELLOW << "\nTesting case sensitivity (if applicable):" << RESET << std::endl;
-    f = lucky.makeForm("ROBOTOMY REQUEST", "Bender");
-    if (f) delete f;
+    for (int i = 0; i < 4; i++) {
+        std::cout << YELLOW << "\nTesting [" << names[i] << "]:" << RESET << std::endl;
+        try {
+            AForm *f = lucky.makeForm(names[i], "Bender");
+            delete f;
+        } catch (const std::exception &e) {
+            std::cout << RED << "Expected error: " << RESET << e.what() << std::endl;
+        }
+    }
 }
 
-int main() {
+int main()
+{
     try {
         testInternComprehensive();
         testEdgeCases();
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         std::cerr << RED << "CRITICAL ERROR: " << RESET << e.what() << std::endl;
     }
 

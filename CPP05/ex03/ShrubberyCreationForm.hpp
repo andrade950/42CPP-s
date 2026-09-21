@@ -11,28 +11,34 @@
 /* ************************************************************************** */
 
 #pragma once
-#include "AForm.hpp"
 
-class Bureaucrat;
+#include "AForm.hpp"
 
 class ShrubberyCreationForm : public AForm
 {
     private:
         std::string     _target;
+
+        virtual void    action() const;
+
     public:
-        ShrubberyCreationForm(void);
-        ShrubberyCreationForm(std::string target);
+        ShrubberyCreationForm();
+        ShrubberyCreationForm(const std::string &target);
         ShrubberyCreationForm(const ShrubberyCreationForm &copy);
         virtual ~ShrubberyCreationForm();
 
         ShrubberyCreationForm &operator=(const ShrubberyCreationForm &copy);
 
-        std::string     getTarget() const;
-        void    execute(Bureaucrat const &bureaucrat) const;
+        const std::string   &getTarget() const;
 
-        static AForm *createShrubberyCreationForm(std::string const &target)
+        class FileNotOpenedException : public std::exception
         {
-            return (new ShrubberyCreationForm(target));
-        }
+            public:
+                const char *what() const throw()
+                {
+                    return ("Could not open file");
+                }
+        };
 };
-std::ostream    &operator<<(std::ostream &out, const ShrubberyCreationForm &form);
+
+std::ostream &operator<<(std::ostream &out, const ShrubberyCreationForm &form);

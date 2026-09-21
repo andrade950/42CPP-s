@@ -1,6 +1,6 @@
 # CPP's — C++ Modules
 
-[Leia em Português](README.pt.md)
+[Leia em Português](README_pt.md)
 
 > Repository containing all exercises from the 42 C++ modules.  
 > Each module progressively introduces new concepts of the language — from the basics to advanced topics.
@@ -30,10 +30,15 @@ cpp's/
 │   ├── ex00/   → Aaaaand... OPEN!
 │   ├── ex01/   → Serena, my love!
 │   └── ex02/   → Repetitive work
-└── cpp04/
-    ├── ex00/   → Polymorphism
-    ├── ex01/   → I don't want to set the world on fire
-    └── ex02/   → Abstract class
+├── cpp04/
+│   ├── ex00/   → Polymorphism
+│   ├── ex01/   → I don't want to set the world on fire
+│   └── ex02/   → Abstract class
+└── cpp05/
+    ├── ex00/   → Mommy, when I grow up, I want to be a bureaucrat!
+    ├── ex01/   → Form up, maggots!
+    ├── ex02/   → No, you need form 28B, not 28C...
+    └── ex03/   → At least this beats coffee-making
 ```
 
 ---
@@ -486,6 +491,146 @@ Extend the previous exercise by making `Animal` (or `AAnimal`) abstract. The `ma
 
 ---
 
+<details>
+<summary><strong>CPP05 — Repetition and Exceptions</strong></summary>
+
+### Concepts covered
+- Exceptions: `try` / `catch` / `throw`
+- Custom exception classes nested in each class, derived from `std::exception` and overriding `what()`
+- Exception safety: validate **before** modifying, so a failed call leaves the object untouched
+- Orthodox Canonical Form with `const` attributes (name and grades can't be reassigned, only mutable state is copied)
+- Abstract classes and pure virtual functions
+- Public `execute()` in the base class checks the permissions, then calls a protected pure virtual `action()` (one single place for the checks)
+- Table of function pointers instead of an `if / else if` chain
+- Grades work backwards: **1 is the highest grade, 150 the lowest**
+
+> ⚠️ Exception classes don't need to follow the Orthodox Canonical Form, but every other class does. No function bodies in headers (exception `what()` included) and no STL containers until CPP08.
+
+---
+
+### ex00 — Mommy, when I grow up, I want to be a bureaucrat!
+
+**Goal:** Introduction to exceptions with the smallest cog of the machine.
+
+A `Bureaucrat` has a **constant name** and a grade from `1` to `150`. Building one with an invalid grade throws `Bureaucrat::GradeTooHighException` (grade < 1) or `Bureaucrat::GradeTooLowException` (grade > 150).
+
+- `getName()` / `getGrade()` — getters.
+- `incrementBureaucrat()` — promotes (grade `3` → `2`); throws if it would go past `1`.
+- `decrementBureaucrat()` — demotes; throws if it would go past `150`.
+- `operator<<` prints `<name>, bureaucrat grade <grade>`.
+
+> A failed increment/decrement leaves the grade unchanged.
+
+**Example:**
+```
+Alice, bureaucrat grade 42
+```
+
+**Files:**
+| File | Description |
+|---|---|
+| `Bureaucrat.hpp/.cpp` | Bureaucrat class and its two exception classes |
+| `main.cpp` | Constructor limits, canonical form, promote/demote until it throws, exception catching, scope destruction |
+
+---
+
+### ex01 — Form up, maggots!
+
+**Goal:** Make two classes collaborate and report failures through exceptions.
+
+A `Form` has a constant name, a `signed` flag (false at construction), a constant grade to sign and a constant grade to execute — all **private**. Invalid grades throw `Form::GradeTooHighException` / `Form::GradeTooLowException`.
+
+- `Form::beSigned(const Bureaucrat &)` — signs the form if the bureaucrat's grade is high enough, otherwise throws `Form::GradeTooLowException`.
+- `Bureaucrat::signForm(Form &)` — calls `beSigned()` and reports:
+  - `<bureaucrat> signed <form>`
+  - `<bureaucrat> couldn't sign <form> because <reason>`
+- `operator<<` prints all the form's information.
+
+**Files:**
+| File | Description |
+|---|---|
+| `Bureaucrat.hpp/.cpp` | Bureaucrat from ex00 + `signForm()` |
+| `Form.hpp/.cpp` | Form class with `beSigned()` and its exceptions |
+| `main.cpp` | Copy/assignment, promotion until the form can be signed, invalid grades, scope, several bureaucrats on the same form |
+
+---
+
+### ex02 — No, you need form 28B, not 28C...
+
+**Goal:** Abstract base class and polymorphic forms that actually do something.
+
+`Form` becomes the abstract class `AForm`. Its attributes stay private in the base class. The public `execute(const Bureaucrat &) const` checks that the form is signed and that the executor's grade is high enough (throwing `FormNotSignedException` / `GradeTooLowException` otherwise), then calls the protected pure virtual `action()`, which each concrete form implements.
+
+| Form | Sign | Exec | Action |
+|---|---|---|---|
+| `ShrubberyCreationForm` | 145 | 137 | Creates `<target>_shrubbery` in the working directory with ASCII trees |
+| `RobotomyRequestForm` | 72 | 45 | Drilling noises, then `<target>` is robotomized successfully 50% of the time, otherwise the robotomy fails |
+| `PresidentialPardonForm` | 25 | 5 | `<target>` has been pardoned by Zaphod Beeblebrox |
+
+All of them take a single constructor parameter: the target.
+
+`Bureaucrat::executeForm(const AForm &) const` runs the form and prints `<bureaucrat> executed <form>`, or an explicit error message.
+
+**Files:**
+| File | Description |
+|---|---|
+| `Bureaucrat.hpp/.cpp` | Bureaucrat with `signForm()` and `executeForm()` |
+| `AForm.hpp/.cpp` | Abstract base class with `beSigned()`, `execute()` and pure virtual `action()` |
+| `ShrubberyCreationForm.hpp/.cpp` | Writes the ASCII trees to `<target>_shrubbery` |
+| `RobotomyRequestForm.hpp/.cpp` | 50% success using `std::rand()` (seeded once per run) |
+| `PresidentialPardonForm.hpp/.cpp` | Pardon message |
+| `main.cpp` | Polymorphic array of `AForm*`, robotomy probability, file creation, signing/execution grade limits |
+
+---
+
+### ex03 — At least this beats coffee-making
+
+**Goal:** Build objects from a name without an `if / else if` chain.
+
+An `Intern` has no name, no grade and no state. Its `makeForm(name, target)` returns a `new` `AForm*` matching the name, prints `Intern creates <form>`, or prints an explicit error and throws `Intern::FormCreationException` when the name is unknown. The name lookup uses a table of names paired with a table of function pointers.
+
+| Form name | Creates |
+|---|---|
+| `shrubbery creation` | `ShrubberyCreationForm` |
+| `robotomy request` | `RobotomyRequestForm` |
+| `presidential pardon` | `PresidentialPardonForm` |
+
+Names are matched exactly (case-sensitive). The caller owns the returned pointer and must `delete` it.
+
+```cpp
+Intern  someRandomIntern;
+AForm  *rrf = someRandomIntern.makeForm("robotomy request", "Bender");
+delete rrf;
+```
+
+**Files:**
+| File | Description |
+|---|---|
+| `Intern.hpp/.cpp` | Intern with `makeForm()`, factory functions kept in the `.cpp` |
+| `Bureaucrat`, `AForm` and the three forms | Reused from ex02 |
+| `main.cpp` | Valid and invalid names, edge cases (empty string, wrong case, extra spaces), sign and execute with different grades |
+
+---
+
+### Build & run
+
+```bash
+cd cpp05/ex03
+make
+./Intern
+```
+
+| Exercise | Binary |
+|---|---|
+| ex00 | `./Bureaucrat` |
+| ex01 | `./Form` |
+| ex02 | `./AForm` |
+| ex03 | `./Intern` |
+
+</details>
+
+---
+
 ## 🔧 How to Compile
 
 Each exercise has its own `Makefile`. To compile:
@@ -503,7 +648,10 @@ make clean  # removes object files
 make fclean # removes everything including the binary
 make re     # fclean + make
 make va     # make + valgrind
+make asan   # (cpp05) rebuild with AddressSanitizer + UBSan and run
 ```
+
+> In `cpp05/ex02` and `cpp05/ex03`, `make clean` also removes the generated `*_shrubbery` files.
 
 ---
 
@@ -511,12 +659,12 @@ make va     # make + valgrind
 
 | Module | Main Topic |
 |---|---|
-| [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
-| [CPP01](CPP01) | Memory, Pointers, References, `new`/`delete` |
-| [CPP02](CPP02) | Orthodox Canonical Form, Operator Overloading |
-| [CPP03](CPP03) | Inheritance |
-| [CPP04](CPP04) | Polymorphism, Abstract Classes |
-| CPP05 | Exceptions |
+| [CPP00](cpp00) | Namespaces, Classes, I/O, Static |
+| [CPP01](cpp01) | Memory, Pointers, References, `new`/`delete` |
+| [CPP02](cpp02) | Orthodox Canonical Form, Operator Overloading |
+| [CPP03](cpp03) | Inheritance |
+| [CPP04](cpp04) | Polymorphism, Abstract Classes |
+| [CPP05](cpp05) | Exceptions, Abstract Classes, Function-pointer dispatch |
 | CPP06 | C++ Casts |
 | CPP07 | Templates |
 | CPP08 | STL Containers and Iterators |

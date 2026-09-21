@@ -13,98 +13,71 @@
 #include "ShrubberyCreationForm.hpp"
 #include <fstream>
 
-ShrubberyCreationForm::ShrubberyCreationForm(void)
-    : AForm("Default", 145, 137), _target("Default")
+ShrubberyCreationForm::ShrubberyCreationForm()
+    : AForm("ShrubberyCreationForm", 145, 137), _target("Default")
 {
-    std::cout << "Shrubbery: Default constructor called" << std::endl;
+    std::cout << "Shrubbery: Default Constructor" << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target)
+ShrubberyCreationForm::ShrubberyCreationForm(const std::string &target)
     : AForm("ShrubberyCreationForm", 145, 137), _target(target)
 {
-    std::cout << "Shrubbery: Constructor called" << std::endl;
+    std::cout << "Shrubbery: Name Constructor" << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(
-    const ShrubberyCreationForm &copy)
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &copy)
     : AForm(copy), _target(copy._target)
 {
-    std::cout << "Shrubbery: Copy constructor called" << std::endl;
+    std::cout << "Shrubbery: Copy Constructor" << std::endl;
 }
 
-ShrubberyCreationForm &
-ShrubberyCreationForm::operator=(const ShrubberyCreationForm &copy)
+ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationForm &copy)
 {
     if (this != &copy)
     {
         AForm::operator=(copy);
-        this->_target = copy._target;
+        _target = copy._target;
+        std::cout << "Shrubbery: Assignment Operator" << std::endl;
     }
-
-    std::cout << "Shrubbery: Assignment operator called" << std::endl;
     return (*this);
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
-    std::cout << "Shrubbery: Destructor called" << std::endl;
+    std::cout << "Shrubbery: Destructor" << std::endl;
 }
 
-std::string ShrubberyCreationForm::getTarget() const
+const std::string &ShrubberyCreationForm::getTarget() const
 {
-    return (this->_target);
+    return (_target);
 }
 
-void ShrubberyCreationForm::execute(Bureaucrat const &executor) const
+void ShrubberyCreationForm::action() const
 {
-    // Verifica se o formulário está assinado
-    if (!this->getIsSigned())
-        throw AForm::FormNotSignedException();
-
-    // Verifica se o bureaucrat tem grade suficiente
-    if (executor.getGrade() > this->getExecute())
-        throw AForm::GradeTooLowException();
-
-    // Nome do ficheiro
-    std::string filename = this->_target + "_shrubbery";
-
-    // Criação e abertura do ficheiro
+    std::string filename = _target + "_shrubbery";
     std::ofstream file(filename.c_str());
 
     if (!file.is_open())
-        throw std::runtime_error("Could not open shrubbery file");
+        throw FileNotOpenedException();
 
-    // ASCII TREE
     file << "          v .   ._, |_  .," << std::endl;
     file << "       `-._\\/  .  \\ /    |/_" << std::endl;
     file << "           \\  _\\, y | \\//" << std::endl;
     file << "     _\\_.___\\, \\/ -.\\||" << std::endl;
     file << "       `7-,--.`._||  / / ," << std::endl;
-    file << "       /'     `-. `./ / |_." << std::endl;
+    file << "       /'     `-. `./ / |/_." << std::endl;
     file << "                 |    |//" << std::endl;
     file << "                 |_    /" << std::endl;
     file << "                 |-   |" << std::endl;
     file << "                 |   =|" << std::endl;
     file << "                 |    |" << std::endl;
     file << "----------------/ ,  . \\--------._" << std::endl;
-
-    file.close();
-
-    std::cout << executor.getName()
-              << " executed "
-              << this->getName()
-              << std::endl;
 }
 
-std::ostream &operator<<(std::ostream &out,
-    const ShrubberyCreationForm &form)
+std::ostream &operator<<(std::ostream &out, const ShrubberyCreationForm &form)
 {
-    out << "ShrubberyCreationForm: "
-        << form.getName()
-        << ", Target: "
-        << form.getTarget()
-        << ", Signed: "
-        << form.getIsSigned();
-
+    out << "ShrubberyCreationForm: " << form.getName()
+        << ", Target: " << form.getTarget()
+        << ", Signed: " << (form.getIsSigned() ? "Yes" : "No");
     return (out);
 }

@@ -13,7 +13,6 @@
 #include "Bureaucrat.hpp"
 #include <iostream>
 
-// Definições de cores para um output profissional
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
@@ -21,7 +20,7 @@
 #define CYAN    "\033[36m"
 #define BOLD    "\033[1m"
 
-static void printHeader(const std::string& title)
+static void printHeader(const std::string &title)
 {
     std::cout << "\n" << BOLD << CYAN << "===================================================" << RESET << std::endl;
     std::cout << BOLD << "  " << title << RESET << std::endl;
@@ -42,7 +41,7 @@ static void testConstructors()
         try {
             Bureaucrat b(names[i], grades[i]);
             std::cout << GREEN << "    Success: " << b << RESET << "\n";
-        } catch (const std::exception& e) {
+        } catch (const std::exception &e) {
             std::cout << RED << "    Exception Caught: " << e.what() << RESET << "\n";
         }
     }
@@ -60,14 +59,12 @@ static void testCanonicalForm()
     std::cout << "    Original: " << original << "\n";
     std::cout << "    Copy:     " << copy << "\n";
 
-    std::cout << YELLOW << "[Step 2] Assignment Operator (Name should remain const):" << RESET << "\n";
+    std::cout << YELLOW << "[Step 2] Assignment Operator (name is const, only the grade changes):" << RESET << "\n";
     Bureaucrat source("Source", 1);
     Bureaucrat target("Target", 150);
-    
+
     std::cout << "    Before: " << target << "\n";
-    target = source; 
-    // Nota: Se o seu name for const std::string, apenas o grade deve mudar. 
-    // Se não for const, o nome mudará. Verifique o PDF do sujeito!
+    target = source;
     std::cout << "    After target = source: " << target << "\n";
 }
 
@@ -77,31 +74,31 @@ static void testEvolution()
 {
     printHeader("3. GRADE EVOLUTION (INC/DEC)");
 
+    Bureaucrat up("PromoteMe", 3);
+    std::cout << "Initial: " << up << "\n";
     try {
-        Bureaucrat b("PromoteMe", 3);
-        std::cout << "Initial: " << b << "\n";
-        
         while (true) {
             std::cout << "    Incrementing..." << std::endl;
-            b.incrementBureaucrat();
-            std::cout << "    Current: " << b << "\n";
+            up.incrementBureaucrat();
+            std::cout << "    Current: " << up << "\n";
         }
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         std::cout << YELLOW << "    Stop Signal: " << e.what() << RESET << "\n";
     }
+    std::cout << "    After failure the grade must still be valid: " << up << "\n";
 
+    Bureaucrat down("DemoteMe", 148);
+    std::cout << "\nInitial: " << down << "\n";
     try {
-        Bureaucrat b("DemoteMe", 148);
-        std::cout << "\nInitial: " << b << "\n";
-        
         while (true) {
             std::cout << "    Decrementing..." << std::endl;
-            b.decrementBureaucrat();
-            std::cout << "    Current: " << b << "\n";
+            down.decrementBureaucrat();
+            std::cout << "    Current: " << down << "\n";
         }
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         std::cout << YELLOW << "    Stop Signal: " << e.what() << RESET << "\n";
     }
+    std::cout << "    After failure the grade must still be valid: " << down << "\n";
 }
 
 // ─── EXCEPTION HIERARCHY ─────────────────────────────────────────────────────
@@ -111,10 +108,10 @@ static void testExceptionHierarchy()
     printHeader("4. EXCEPTION HIERARCHY");
 
     std::cout << "Verifying that we can catch specific nested classes:\n";
-    
+
     try {
         throw Bureaucrat::GradeTooHighException();
-    } catch (const Bureaucrat::GradeTooHighException& e) {
+    } catch (const Bureaucrat::GradeTooHighException &e) {
         std::cout << GREEN << "    [OK] Caught GradeTooHighException by reference.\n" << RESET;
     } catch (...) {
         std::cout << RED << "    [FAIL] Failed to catch specific exception.\n" << RESET;

@@ -30,10 +30,15 @@ cpp's/
 │   ├── ex00/   → Aaaaand... OPEN!
 │   ├── ex01/   → Serena, my love!
 │   └── ex02/   → Repetitive work
-└── cpp04/
-    ├── ex00/   → Polymorphism
-    ├── ex01/   → I don't want to set the world on fire
-    └── ex02/   → Abstract class
+├── cpp04/
+│   ├── ex00/   → Polymorphism
+│   ├── ex01/   → I don't want to set the world on fire
+│   └── ex02/   → Abstract class
+└── cpp05/
+    ├── ex00/   → Mommy, when I grow up, I want to be a bureaucrat!
+    ├── ex01/   → Form up, maggots!
+    ├── ex02/   → No, you need form 28B, not 28C...
+    └── ex03/   → At least this beats coffee-making
 ```
 
 ---
@@ -486,6 +491,146 @@ Estender o exercício anterior tornando `Animal` (ou `AAnimal`) abstrata. A fun�
 
 ---
 
+<details>
+<summary><strong>CPP05 — Repetição e Exceções</strong></summary>
+
+### Conceitos abordados
+- Exceções: `try` / `catch` / `throw`
+- Classes de exceção aninhadas em cada classe, derivadas de `std::exception` e com `what()` sobreposto
+- Segurança perante exceções: validar **antes** de modificar, para que uma chamada falhada deixe o objeto intacto
+- Forma Canónica Ortodoxa com atributos `const` (nome e graus não podem ser reatribuídos, só se copia o estado mutável)
+- Classes abstratas e funções puramente virtuais
+- O `execute()` público da classe base verifica as permissões e depois chama um `action()` protegido puramente virtual (as verificações ficam num único sítio)
+- Tabela de ponteiros para funções em vez de uma cadeia `if / else if`
+- Os graus funcionam ao contrário: **1 é o grau mais alto, 150 o mais baixo**
+
+> ⚠️ As classes de exceção não precisam de seguir a Forma Canónica Ortodoxa, mas todas as outras precisam. Sem corpos de funções nos headers (incluindo o `what()` das exceções) e sem contentores STL até ao CPP08.
+
+---
+
+### ex00 — Mommy, when I grow up, I want to be a bureaucrat!
+
+**Objetivo:** Introdução às exceções com a peça mais pequena da máquina.
+
+Um `Bureaucrat` tem um **nome constante** e um grau de `1` a `150`. Construir um com grau inválido lança `Bureaucrat::GradeTooHighException` (grau < 1) ou `Bureaucrat::GradeTooLowException` (grau > 150).
+
+- `getName()` / `getGrade()` — getters.
+- `incrementBureaucrat()` — promove (grau `3` → `2`); lança exceção se passasse de `1`.
+- `decrementBureaucrat()` — despromove; lança exceção se passasse de `150`.
+- `operator<<` imprime `<nome>, bureaucrat grade <grau>`.
+
+> Um increment/decrement falhado deixa o grau inalterado.
+
+**Exemplo:**
+```
+Alice, bureaucrat grade 42
+```
+
+**Ficheiros:**
+| Ficheiro | Descrição |
+|---|---|
+| `Bureaucrat.hpp/.cpp` | Classe Bureaucrat e as suas duas classes de exceção |
+| `main.cpp` | Limites do construtor, forma canónica, promover/despromover até lançar, captura de exceções, destruição por escopo |
+
+---
+
+### ex01 — Form up, maggots!
+
+**Objetivo:** Fazer duas classes colaborarem e reportar falhas através de exceções.
+
+Um `Form` tem um nome constante, uma flag `signed` (falsa na construção), um grau constante para assinar e um grau constante para executar — todos **privados**. Graus inválidos lançam `Form::GradeTooHighException` / `Form::GradeTooLowException`.
+
+- `Form::beSigned(const Bureaucrat &)` — assina o formulário se o grau do burocrata for suficiente, caso contrário lança `Form::GradeTooLowException`.
+- `Bureaucrat::signForm(Form &)` — chama `beSigned()` e reporta:
+  - `<burocrata> signed <formulário>`
+  - `<burocrata> couldn't sign <formulário> because <motivo>`
+- `operator<<` imprime toda a informação do formulário.
+
+**Ficheiros:**
+| Ficheiro | Descrição |
+|---|---|
+| `Bureaucrat.hpp/.cpp` | Bureaucrat do ex00 + `signForm()` |
+| `Form.hpp/.cpp` | Classe Form com `beSigned()` e as suas exceções |
+| `main.cpp` | Cópia/atribuição, promoção até conseguir assinar, graus inválidos, escopo, vários burocratas no mesmo formulário |
+
+---
+
+### ex02 — No, you need form 28B, not 28C...
+
+**Objetivo:** Classe base abstrata e formulários polimórficos que fazem algo de facto.
+
+O `Form` passa a ser a classe abstrata `AForm`, com os atributos privados na classe base. O `execute(const Bureaucrat &) const` público verifica se o formulário está assinado e se o grau do executor é suficiente (lançando `FormNotSignedException` / `GradeTooLowException` caso contrário) e depois chama o `action()` protegido puramente virtual, que cada formulário concreto implementa.
+
+| Formulário | Assinar | Executar | Ação |
+|---|---|---|---|
+| `ShrubberyCreationForm` | 145 | 137 | Cria `<target>_shrubbery` no diretório de trabalho com árvores ASCII |
+| `RobotomyRequestForm` | 72 | 45 | Barulhos de perfuração; `<target>` é robotomizado com sucesso em 50% das vezes, senão a robotomia falha |
+| `PresidentialPardonForm` | 25 | 5 | `<target>` foi perdoado por Zaphod Beeblebrox |
+
+Todos recebem um único parâmetro no construtor: o alvo.
+
+`Bureaucrat::executeForm(const AForm &) const` executa o formulário e imprime `<burocrata> executed <formulário>`, ou uma mensagem de erro explícita.
+
+**Ficheiros:**
+| Ficheiro | Descrição |
+|---|---|
+| `Bureaucrat.hpp/.cpp` | Bureaucrat com `signForm()` e `executeForm()` |
+| `AForm.hpp/.cpp` | Classe base abstrata com `beSigned()`, `execute()` e `action()` puramente virtual |
+| `ShrubberyCreationForm.hpp/.cpp` | Escreve as árvores ASCII em `<target>_shrubbery` |
+| `RobotomyRequestForm.hpp/.cpp` | 50% de sucesso com `std::rand()` (semente definida uma só vez por execução) |
+| `PresidentialPardonForm.hpp/.cpp` | Mensagem de perdão |
+| `main.cpp` | Array polimórfico de `AForm*`, probabilidade da robotomia, criação do ficheiro, limites de grau para assinar/executar |
+
+---
+
+### ex03 — At least this beats coffee-making
+
+**Objetivo:** Construir objetos a partir de um nome sem uma cadeia `if / else if`.
+
+Um `Intern` não tem nome, grau nem estado. O seu `makeForm(nome, alvo)` devolve um `AForm*` criado com `new` correspondente ao nome e imprime `Intern creates <formulário>`; se o nome for desconhecido, imprime um erro explícito e lança `Intern::FormCreationException`. A procura do nome usa uma tabela de nomes emparelhada com uma tabela de ponteiros para funções.
+
+| Nome do formulário | Cria |
+|---|---|
+| `shrubbery creation` | `ShrubberyCreationForm` |
+| `robotomy request` | `RobotomyRequestForm` |
+| `presidential pardon` | `PresidentialPardonForm` |
+
+Os nomes têm de coincidir exatamente (sensível a maiúsculas). Quem chama é dono do ponteiro devolvido e tem de fazer `delete`.
+
+```cpp
+Intern  someRandomIntern;
+AForm  *rrf = someRandomIntern.makeForm("robotomy request", "Bender");
+delete rrf;
+```
+
+**Ficheiros:**
+| Ficheiro | Descrição |
+|---|---|
+| `Intern.hpp/.cpp` | Intern com `makeForm()`, funções de criação mantidas no `.cpp` |
+| `Bureaucrat`, `AForm` e os três formulários | Reutilizados do ex02 |
+| `main.cpp` | Nomes válidos e inválidos, casos limite (string vazia, maiúsculas, espaços a mais), assinar e executar com graus diferentes |
+
+---
+
+### Compilar e executar
+
+```bash
+cd cpp05/ex03
+make
+./Intern
+```
+
+| Exercício | Binário |
+|---|---|
+| ex00 | `./Bureaucrat` |
+| ex01 | `./Form` |
+| ex02 | `./AForm` |
+| ex03 | `./Intern` |
+
+</details>
+
+---
+
 ## 🔧 Como Compilar
 
 Cada exercício tem o seu próprio `Makefile`. Para compilar:
@@ -503,7 +648,10 @@ make clean  # remove os ficheiros objeto
 make fclean # remove tudo incluindo o binário
 make re     # fclean + make
 make va     # make + valgrind
+make asan   # (cpp05) recompila com AddressSanitizer + UBSan e executa
 ```
+
+> No `cpp05/ex02` e `cpp05/ex03`, o `make clean` também remove os ficheiros `*_shrubbery` gerados.
 
 ---
 
@@ -511,12 +659,12 @@ make va     # make + valgrind
 
 | Módulo | Tema Principal |
 |---|---|
-| [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
-| [CPP01](CPP01) | Memória, Ponteiros, Referências, `new`/`delete` |
-| [CPP02](CPP02) | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
-| [CPP03](CPP03) | Herança |
-| [CPP04](CPP04) | Polimorfismo, Classes Abstratas |
-| CPP05 | Exceções |
+| [CPP00](cpp00) | Namespaces, Classes, I/O, Static |
+| [CPP01](cpp01) | Memória, Ponteiros, Referências, `new`/`delete` |
+| [CPP02](cpp02) | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
+| [CPP03](cpp03) | Herança |
+| [CPP04](cpp04) | Polimorfismo, Classes Abstratas |
+| [CPP05](cpp05) | Exceções, Classes Abstratas, Despacho por ponteiros para funções |
 | CPP06 | Casts em C++ |
 | CPP07 | Templates |
 | CPP08 | Contentores e Iteradores STL |
