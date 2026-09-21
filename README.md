@@ -659,12 +659,12 @@ make asan   # (cpp05) rebuild with AddressSanitizer + UBSan and run
 
 | Module | Main Topic |
 |---|---|
-| [CPP00](cpp00) | Namespaces, Classes, I/O, Static |
-| [CPP01](cpp01) | Memory, Pointers, References, `new`/`delete` |
-| [CPP02](cpp02) | Orthodox Canonical Form, Operator Overloading |
-| [CPP03](cpp03) | Inheritance |
-| [CPP04](cpp04) | Polymorphism, Abstract Classes |
-| [CPP05](cpp05) | Exceptions, Abstract Classes, Function-pointer dispatch |
+| [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
+| [CPP01](CPP01) | Memory, Pointers, References, `new`/`delete` |
+| [CPP02](CPP02) | Orthodox Canonical Form, Operator Overloading |
+| [CPP03](CPP03) | Inheritance |
+| [CPP04](CPP04) | Polymorphism, Abstract Classes |
+| [CPP05](CPP05) | Exceptions, Abstract Classes, Function-pointer dispatch |
 | CPP06 | C++ Casts |
 | CPP07 | Templates |
 | CPP08 | STL Containers and Iterators |
