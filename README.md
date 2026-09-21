@@ -1,6 +1,6 @@
 # CPP's — C++ Modules
 
-[Leia em Português](README_pt.md)
+[Leia em Português](README.pt.md)
 
 > Repository containing all exercises from the 42 C++ modules.  
 > Each module progressively introduces new concepts of the language — from the basics to advanced topics.
