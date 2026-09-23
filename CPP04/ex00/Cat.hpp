@@ -1,29 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Cat.hpp                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 15:04:20 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/13 15:04:21 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef CAT_HPP
+#define CAT_HPP
 
-#pragma once
 #include "Animal.hpp"
 
-class Cat : public Animal {
-	protected:
-	std::string _name;
+class Cat : public Animal
+{
 	public:
-	Cat();
-	Cat(std::string _name);
-	~Cat();
-	Cat(const Cat& other);
-	Cat& operator=(const Cat& other);
+		Cat();
+		Cat(const Cat& other);
+		Cat& operator=(const Cat& other);
+		virtual ~Cat();
 
-	std::string	getType() const;
-	void		setType(std::string type);
-	void	makeSound() const;
+		virtual void makeSound() const;
 };
+
+#endif

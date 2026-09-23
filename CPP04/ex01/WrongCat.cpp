@@ -1,49 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   WrongCat.cpp                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 15:19:56 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/27 13:50:55 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "WrongCat.hpp"
-#include "WrongAnimal.hpp"
 
-WrongCat::WrongCat() : WrongAnimal(){
-	std::cout << "WrongCat created" << std::endl;
-
-}
-WrongCat::WrongCat(std::string type) : WrongAnimal(type) {
-	std::cout << "WrongCat created with type: " << this->_type << std::endl;
+WrongCat::WrongCat()
+{
+	this->type = "WrongCat";
+	std::cout << "WrongCat default constructor called" << std::endl;
 }
 
-WrongCat::WrongCat(const WrongCat& other) : WrongAnimal(other) {
-	*this = other;
+WrongCat::WrongCat(const WrongCat& other) : WrongAnimal(other)
+{
+	std::cout << "WrongCat copy constructor called" << std::endl;
 }
 
-WrongCat::~WrongCat() {
-	std::cout << "WrongCat died" << std::endl;
+WrongCat& WrongCat::operator=(const WrongCat& other)
+{
+	std::cout << "WrongCat copy assignment operator called" << std::endl;
+	if (this != &other)
+		WrongAnimal::operator=(other);
+	return *this;
 }
 
-void	WrongCat::setType(std::string type) {
-	this->_type = type;
+WrongCat::~WrongCat()
+{
+	std::cout << "WrongCat destructor called" << std::endl;
 }
 
-std::string	WrongCat::getType() const {
-	return this->_type;
-}
-
-WrongCat& WrongCat::operator=(const WrongCat& other) {
-	if (this != &other) {
-		this->_type = other.getType();
-	}
-	return (*this);
-}
-
-void	WrongCat::makeSound() const {
-	std::cout << "Cat goes Bark Bark?" << std::endl;
+void WrongCat::makeSound() const
+{
+	std::cout << "Meow! (but you should never see this through a WrongAnimal*)" << std::endl;
 }

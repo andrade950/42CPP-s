@@ -1,48 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Dog.cpp                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 15:09:34 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/27 13:47:22 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Dog.hpp"
 
-Dog::Dog() : Animal("Dog"){
-	std::cout << "Dog created" << std::endl;
-
-}
-Dog::Dog(std::string type) : Animal(type) {
-	std::cout << "Dog created with type: " << this->_type << std::endl;
+Dog::Dog()
+{
+	this->type = "Dog"; // set the inherited protected attribute
+	std::cout << "Dog default constructor called" << std::endl;
 }
 
-Dog::~Dog() {
-	std::cout << "Dog died" << std::endl;
+Dog::Dog(const Dog& other) : Animal(other)
+{
+	std::cout << "Dog copy constructor called" << std::endl;
 }
 
-Dog::Dog(const Dog& other) : Animal(other) {
-	*this = other;
+Dog& Dog::operator=(const Dog& other)
+{
+	std::cout << "Dog copy assignment operator called" << std::endl;
+	if (this != &other)
+		Animal::operator=(other);
+	return *this;
 }
 
-void	Dog::setType(std::string type) {
-	this->_type = type;
+Dog::~Dog()
+{
+	std::cout << "Dog destructor called" << std::endl;
 }
 
-std::string	Dog::getType() const {
-	return this->_type;
-}
-
-Dog& Dog::operator=(const Dog& other) {
-	if (this != &other) {
-		this->_type = other.getType();
-	}
-	return (*this);
-}
-
-void	Dog::makeSound() const {
-	std::cout << "Woof woof!" << std::endl;
+void Dog::makeSound() const
+{
+	std::cout << "Woof! Woof!" << std::endl;
 }

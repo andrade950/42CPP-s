@@ -1,33 +1,24 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Dog.hpp                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 15:13:35 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/14 13:36:16 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef DOG_HPP
+#define DOG_HPP
 
-#pragma once
 #include "Animal.hpp"
 #include "Brain.hpp"
 
-class Dog : public Animal {
+class Dog : public Animal
+{
 	private:
-	Brain* brain;
+		Brain* brain; // each Dog owns its own Brain instance
 
 	public:
-	Dog();
-	Dog(const Dog&);
-	~Dog();
-	Dog& operator=(const Dog& other);
+		Dog();
+		Dog(const Dog& other);
+		Dog& operator=(const Dog& other);
+		virtual ~Dog();
 
-	void	makeSound() const;
+		virtual void makeSound() const;
 
-	std::string	getType() const;
-	void		setType(std::string type);
-	void		setIdea(unsigned int index, std::string idea);
-	std::string	getIdea(unsigned int index) const;
+		// exposed only to prove deep copies work in tests (not required by subject)
+		const Brain* getBrainAddress() const;
 };
+
+#endif

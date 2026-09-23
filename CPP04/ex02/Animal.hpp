@@ -1,30 +1,26 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Animal.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 14:57:50 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/14 13:35:16 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef ANIMAL_HPP
+#define ANIMAL_HPP
 
-#pragma once
 #include <string>
 #include <iostream>
 
-class Animal {
-	private:
+// Base class for every animal in the zoo.
+class Animal
+{
 	protected:
-	std::string _type;
-	public:
-	Animal(void);
-	Animal(std::string _name);
-	virtual ~Animal();
+		std::string type; // holds the species name, e.g. "Dog" or "Cat"
 
-	Animal&		operator=(const Animal& other);
-	std::string	getType() const;
-	void		setType(std::string type);
-	virtual void	makeSound() const = 0;
+	public:
+		Animal();
+		Animal(const Animal& other);
+		Animal& operator=(const Animal& other);
+		virtual ~Animal();
+
+		std::string getType() const;
+
+		// pure virtual: makes Animal an abstract class, it can no longer be
+		// instantiated directly (creating a bare Animal makes no sense).
+		virtual void makeSound() const = 0;
 };
+
+#endif

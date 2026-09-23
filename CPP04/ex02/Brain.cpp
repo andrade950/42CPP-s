@@ -1,33 +1,44 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Brain.cpp                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 15:32:40 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/21 13:15:37 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Brain.hpp"
 
-#include <iostream>
-#include <sys/types.h>
-
-Brain::Brain(){
-	std::cout << "Brain Created" << std::endl;
+Brain::Brain()
+{
+	std::cout << "Brain default constructor called" << std::endl;
 }
 
-Brain::~Brain(){
-	std::cout << "Brain died" << std::endl;
+// arrays of std::string are copied member by member automatically,
+// so this "=" here already gives us a deep copy of the ideas array
+Brain::Brain(const Brain& other)
+{
+	std::cout << "Brain copy constructor called" << std::endl;
+	for (int i = 0; i < 100; i++)
+		this->ideas[i] = other.ideas[i];
 }
 
-Brain& Brain::operator=(const Brain &other) {
-	if (this != &other) {
-		for (uint i = 0 ; i < this->n_idea; i++) {
+Brain& Brain::operator=(const Brain& other)
+{
+	std::cout << "Brain copy assignment operator called" << std::endl;
+	if (this != &other)
+	{
+		for (int i = 0; i < 100; i++)
 			this->ideas[i] = other.ideas[i];
-		}
 	}
 	return *this;
+}
+
+Brain::~Brain()
+{
+	std::cout << "Brain destructor called" << std::endl;
+}
+
+void Brain::setIdea(int index, const std::string& idea)
+{
+	if (index >= 0 && index < 100)
+		this->ideas[index] = idea;
+}
+
+std::string Brain::getIdea(int index) const
+{
+	if (index >= 0 && index < 100)
+		return this->ideas[index];
+	return "";
 }

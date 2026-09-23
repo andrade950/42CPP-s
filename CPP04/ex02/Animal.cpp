@@ -1,44 +1,32 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Animal.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 14:56:51 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/14 13:35:02 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Animal.hpp"
 
-Animal::Animal() : _type("No Species"){
-	std::cout << "Animal created" << std::endl;
-
-}
-Animal::Animal(std::string type) : _type(type) {
-	std::cout << "Animal created with type: " << this->_type << std::endl;
+Animal::Animal() : type("Animal")
+{
+	std::cout << "Animal default constructor called" << std::endl;
 }
 
-Animal::~Animal() {
-	std::cout << "Animal died" << std::endl;
+Animal::Animal(const Animal& other) : type(other.type)
+{
+	std::cout << "Animal copy constructor called" << std::endl;
 }
 
-void	Animal::setType(std::string type) {
-	this->_type = type;
+Animal& Animal::operator=(const Animal& other)
+{
+	std::cout << "Animal copy assignment operator called" << std::endl;
+	if (this != &other)
+		this->type = other.type;
+	return *this;
 }
 
-std::string	Animal::getType() const {
-	return this->_type;
+Animal::~Animal()
+{
+	std::cout << "Animal destructor called" << std::endl;
 }
 
-Animal& Animal::operator=(const Animal& other) {
-	if (this != &other) {
-		this->_type = other.getType();
-	}
-	return (*this);
+std::string Animal::getType() const
+{
+	return this->type;
 }
 
-void	Animal::makeSound() const {
-	std::cout << "No Species No sound!" << std::endl;
-}
+// no body needed for makeSound(): it is pure virtual now,
+// every concrete subclass (Dog, Cat, ...) must implement it.

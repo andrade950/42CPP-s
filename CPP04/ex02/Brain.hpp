@@ -1,26 +1,24 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Brain.hpp                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 15:33:55 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/14 13:35:36 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef BRAIN_HPP
+#define BRAIN_HPP
 
-#pragma once
 #include <string>
+#include <iostream>
 
-class Brain {
-private:
-	static const unsigned int n_idea = 100;
-public:
-	Brain();
-	Brain(std::string idea);
-	~Brain();
-	Brain& operator=(const Brain &other);
+// Holds the "thoughts" of an animal. Dog and Cat each own one
+// via a pointer, so we can test deep-copy behaviour.
+class Brain
+{
+	private:
+		std::string ideas[100];
 
-	std::string ideas[n_idea];
+	public:
+		Brain();
+		Brain(const Brain& other);
+		Brain& operator=(const Brain& other);
+		~Brain();
+
+		void setIdea(int index, const std::string& idea);
+		std::string getIdea(int index) const;
 };
+
+#endif

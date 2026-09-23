@@ -1,30 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Dog.hpp                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 15:13:35 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/13 15:13:43 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef DOG_HPP
+#define DOG_HPP
 
-#pragma once
 #include "Animal.hpp"
 
-class Dog : public Animal {
-	private:
-	protected:
-	std::string _name;
+class Dog : public Animal
+{
 	public:
-	Dog();
-	Dog(std::string _name);
-	~Dog();
-	Dog(const Dog& other);
-	Dog& operator=(const Dog& other);
+		Dog();
+		Dog(const Dog& other);
+		Dog& operator=(const Dog& other);
+		virtual ~Dog();
 
-	std::string	getType() const;
-	void		setType(std::string type);
-	void	makeSound() const;
+		// overrides Animal::makeSound with a dog-specific sound
+		virtual void makeSound() const;
 };
+
+#endif

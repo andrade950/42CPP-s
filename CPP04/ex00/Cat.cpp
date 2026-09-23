@@ -1,48 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Cat.cpp                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 15:03:52 by joaomart          #+#    #+#             */
-/*   Updated: 2026/04/27 13:47:52 by joaomart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Cat.hpp"
 
-Cat::Cat() : Animal("Cat"){
-	std::cout << "Cat created" << std::endl;
-
-}
-Cat::Cat(std::string type) : Animal(type) {
-	std::cout << "Cat created with type: " << this->_type << std::endl;
+Cat::Cat()
+{
+	this->type = "Cat";
+	std::cout << "Cat default constructor called" << std::endl;
 }
 
-Cat::Cat(const Cat& other) : Animal(other) {
-	*this = other;
+Cat::Cat(const Cat& other) : Animal(other)
+{
+	std::cout << "Cat copy constructor called" << std::endl;
 }
 
-Cat::~Cat() {
-	std::cout << "Cat died" << std::endl;
+Cat& Cat::operator=(const Cat& other)
+{
+	std::cout << "Cat copy assignment operator called" << std::endl;
+	if (this != &other)
+		Animal::operator=(other);
+	return *this;
 }
 
-void	Cat::setType(std::string type) {
-	this->_type = type;
+Cat::~Cat()
+{
+	std::cout << "Cat destructor called" << std::endl;
 }
 
-std::string	Cat::getType() const {
-	return this->_type;
-}
-
-Cat& Cat::operator=(const Cat& other) {
-	if (this != &other) {
-		this->_type = other.getType();
-	}
-	return (*this);
-}
-
-void	Cat::makeSound() const {
-	std::cout << "Meow Meow!" << std::endl;
+void Cat::makeSound() const
+{
+	std::cout << "Meow!" << std::endl;
 }
