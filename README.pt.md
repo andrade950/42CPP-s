@@ -33,7 +33,8 @@ cpp's/
 ├── cpp04/
 │   ├── ex00/   → Polymorphism
 │   ├── ex01/   → I don't want to set the world on fire
-│   └── ex02/   → Abstract class
+│   ├── ex02/   → Abstract class
+│   └── ex03/   → Interface & recap
 └── cpp05/
     ├── ex00/   → Mommy, when I grow up, I want to be a bureaucrat!
     ├── ex01/   → Form up, maggots!
@@ -487,6 +488,32 @@ Estender o exercício anterior tornando `Animal` (ou `AAnimal`) abstrata. A fun�
 | `Brain.hpp/.cpp` | Inalterado do ex01 |
 | `main.cpp` | Mesmos testes do ex01 — a instanciação direta de `AAnimal` não deve compilar |
 
+---
+
+### ex03 — Interface & recap
+
+**Objetivo:** Compreender classes abstratas puras usadas como interfaces e a gestão complexa de objetos[cite: 1].
+
+Implementar classes abstratas e interfaces (`AMateria`, `ICharacter`, `IMateriaSource`) para construir um sistema de gestão de Materias[cite: 1]:
+- `AMateria` — Classe base abstrata para materias com tipo e métodos de clonagem/utilização[cite: 1].
+- `Ice` & `Cure` — Materias concretas que retornam tipos em minúsculas (`"ice"`, `"cure"`) e saídas personalizadas no `use()`[cite: 1].
+- `Character` — Implementa `ICharacter` com inventário de 4 posições, cópias profundas na construção/atribuição e gestão de equipar/desequipar sem fugas de memória[cite: 1].
+- `MateriaSource` — Implementa `IMateriaSource` para aprender modelos de materia e criar novas a partir do nome[cite: 1].
+
+> ⚠️ Memória alocada para itens desequipados ou materias clonadas deve ser gerida corretamente para evitar memory leaks[cite: 1].
+
+**Ficheiros:**
+| Ficheiro | Descrição |
+|---|---|
+| `AMateria.hpp/.cpp` | Classe base abstrata para materias[cite: 1] |
+| `Ice.hpp/.cpp` | Implementação da materia Ice[cite: 1] |
+| `Cure.hpp/.cpp` | Implementação da materia Cure[cite: 1] |
+| `ICharacter.hpp` | Interface do Personagem[cite: 1] |
+| `Character.hpp/.cpp` | Classe concreta do personagem com inventário de 4 slots[cite: 1] |
+| `IMateriaSource.hpp` | Interface do gerador de materias[cite: 1] |
+| `MateriaSource.hpp/.cpp` | Classe concreta que aprende e cria materias[cite: 1] |
+| `main.cpp` | Testes completos de integração conforme o enunciado[cite: 1] |
+
 </details>
 
 ---
@@ -659,12 +686,12 @@ make asan   # (cpp05) recompila com AddressSanitizer + UBSan e executa
 
 | Módulo | Tema Principal |
 |---|---|
-| [CPP00](cpp00) | Namespaces, Classes, I/O, Static |
-| [CPP01](cpp01) | Memória, Ponteiros, Referências, `new`/`delete` |
-| [CPP02](cpp02) | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
-| [CPP03](cpp03) | Herança |
-| [CPP04](cpp04) | Polimorfismo, Classes Abstratas |
-| [CPP05](cpp05) | Exceções, Classes Abstratas, Despacho por ponteiros para funções |
+| [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
+| [CPP01](CPP01) | Memória, Ponteiros, Referências, `new`/`delete` |
+| [CPP02](CPP02) | Forma Canónica Ortodoxa, Sobrecarga de Operadores |
+| [CPP03](CPP03) | Herança |
+| [CPP04](CPP04) | Polimorfismo, Classes Abstratas |
+| [CPP05](CPP05) | Exceções, Classes Abstratas, Despacho por ponteiros para funções |
 | CPP06 | Casts em C++ |
 | CPP07 | Templates |
 | CPP08 | Contentores e Iteradores STL |

@@ -1,6 +1,6 @@
 # CPP's — C++ Modules
 
-[Leia em Português](README_pt.md)
+[Leia em Português](README.pt.md)
 
 > Repository containing all exercises from the 42 C++ modules.  
 > Each module progressively introduces new concepts of the language — from the basics to advanced topics.
@@ -33,7 +33,8 @@ cpp's/
 ├── cpp04/
 │   ├── ex00/   → Polymorphism
 │   ├── ex01/   → I don't want to set the world on fire
-│   └── ex02/   → Abstract class
+│   ├── ex02/   → Abstract class
+│   └── ex03/   → Interface & recap
 └── cpp05/
     ├── ex00/   → Mommy, when I grow up, I want to be a bureaucrat!
     ├── ex01/   → Form up, maggots!
@@ -487,6 +488,32 @@ Extend the previous exercise by making `Animal` (or `AAnimal`) abstract. The `ma
 | `Brain.hpp/.cpp` | Unchanged from ex01 |
 | `main.cpp` | Same tests as ex01 — direct `AAnimal` instantiation must not compile |
 
+---
+
+### ex03 — Interface & recap
+
+**Goal:** Understand pure abstract classes used as interfaces and complex object management[cite: 1].
+
+Implement abstract classes and interfaces (`AMateria`, `ICharacter`, `IMateriaSource`) to build a Materia management system[cite: 1]:
+- `AMateria` — Abstract base class for materias with a type and clone/use functions[cite: 1].
+- `Ice` & `Cure` — Concrete materias returning low-case types (`"ice"`, `"cure"`) and custom `use()` output[cite: 1].
+- `Character` — Implements `ICharacter` with an inventory of 4 slots, deep copies on assignment/construction, and handling equipping/unequipping without memory leaks[cite: 1].
+- `MateriaSource` — Implements `IMateriaSource` to learn materia templates and create new ones by name[cite: 1].
+
+> ⚠️ Memory allocated for unequipped items or cloned materias must be properly managed to prevent leaks[cite: 1].
+
+**Files:**
+| File | Description |
+|---|---|
+| `AMateria.hpp/.cpp` | Abstract base class for materias[cite: 1] |
+| `Ice.hpp/.cpp` | Ice materia implementation[cite: 1] |
+| `Cure.hpp/.cpp` | Cure materia implementation[cite: 1] |
+| `ICharacter.hpp` | Character interface[cite: 1] |
+| `Character.hpp/.cpp` | Concrete character class with a 4-slot inventory[cite: 1] |
+| `IMateriaSource.hpp` | Materia source interface[cite: 1] |
+| `MateriaSource.hpp/.cpp` | Concrete materia generator class[cite: 1] |
+| `main.cpp` | Complete integration tests matching subject requirements[cite: 1] |
+
 </details>
 
 ---
@@ -659,12 +686,12 @@ make asan   # (cpp05) rebuild with AddressSanitizer + UBSan and run
 
 | Module | Main Topic |
 |---|---|
-| [CPP00](cpp00) | Namespaces, Classes, I/O, Static |
-| [CPP01](cpp01) | Memory, Pointers, References, `new`/`delete` |
-| [CPP02](cpp02) | Orthodox Canonical Form, Operator Overloading |
-| [CPP03](cpp03) | Inheritance |
-| [CPP04](cpp04) | Polymorphism, Abstract Classes |
-| [CPP05](cpp05) | Exceptions, Abstract Classes, Function-pointer dispatch |
+| [CPP00](CPP00) | Namespaces, Classes, I/O, Static |
+| [CPP01](CPP01) | Memory, Pointers, References, `new`/`delete` |
+| [CPP02](CPP02) | Orthodox Canonical Form, Operator Overloading |
+| [CPP03](CPP03) | Inheritance |
+| [CPP04](CPP04) | Polymorphism, Abstract Classes |
+| [CPP05](CPP05) | Exceptions, Abstract Classes, Function-pointer dispatch |
 | CPP06 | C++ Casts |
 | CPP07 | Templates |
 | CPP08 | STL Containers and Iterators |
