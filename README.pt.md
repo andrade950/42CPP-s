@@ -492,27 +492,27 @@ Estender o exercício anterior tornando `Animal` (ou `AAnimal`) abstrata. A fun�
 
 ### ex03 — Interface & recap
 
-**Objetivo:** Compreender classes abstratas puras usadas como interfaces e a gestão complexa de objetos[cite: 1].
+**Objetivo:** Compreender classes abstratas puras usadas como interfaces e a gestão complexa de objetos.
 
-Implementar classes abstratas e interfaces (`AMateria`, `ICharacter`, `IMateriaSource`) para construir um sistema de gestão de Materias[cite: 1]:
-- `AMateria` — Classe base abstrata para materias com tipo e métodos de clonagem/utilização[cite: 1].
-- `Ice` & `Cure` — Materias concretas que retornam tipos em minúsculas (`"ice"`, `"cure"`) e saídas personalizadas no `use()`[cite: 1].
-- `Character` — Implementa `ICharacter` com inventário de 4 posições, cópias profundas na construção/atribuição e gestão de equipar/desequipar sem fugas de memória[cite: 1].
-- `MateriaSource` — Implementa `IMateriaSource` para aprender modelos de materia e criar novas a partir do nome[cite: 1].
+Implementar classes abstratas e interfaces (`AMateria`, `ICharacter`, `IMateriaSource`) para construir um sistema de gestão de Materias:
+- `AMateria` — Classe base abstrata para materias com tipo e métodos de clonagem/utilização.
+- `Ice` & `Cure` — Materias concretas que retornam tipos em minúsculas (`"ice"`, `"cure"`) e saídas personalizadas no `use()`.
+- `Character` — Implementa `ICharacter` com inventário de 4 posições, cópias profundas na construção/atribuição e gestão de equipar/desequipar sem fugas de memória.
+- `MateriaSource` — Implementa `IMateriaSource` para aprender modelos de materia e criar novas a partir do nome.
 
-> ⚠️ Memória alocada para itens desequipados ou materias clonadas deve ser gerida corretamente para evitar memory leaks[cite: 1].
+> ⚠️ Memória alocada para itens desequipados ou materias clonadas deve ser gerida corretamente para evitar memory leaks.
 
 **Ficheiros:**
 | Ficheiro | Descrição |
 |---|---|
-| `AMateria.hpp/.cpp` | Classe base abstrata para materias[cite: 1] |
-| `Ice.hpp/.cpp` | Implementação da materia Ice[cite: 1] |
-| `Cure.hpp/.cpp` | Implementação da materia Cure[cite: 1] |
-| `ICharacter.hpp` | Interface do Personagem[cite: 1] |
-| `Character.hpp/.cpp` | Classe concreta do personagem com inventário de 4 slots[cite: 1] |
-| `IMateriaSource.hpp` | Interface do gerador de materias[cite: 1] |
-| `MateriaSource.hpp/.cpp` | Classe concreta que aprende e cria materias[cite: 1] |
-| `main.cpp` | Testes completos de integração conforme o enunciado[cite: 1] |
+| `AMateria.hpp/.cpp` | Classe base abstrata para materias |
+| `Ice.hpp/.cpp` | Implementação da materia Ice |
+| `Cure.hpp/.cpp` | Implementação da materia Cure |
+| `ICharacter.hpp` | Interface do Personagem |
+| `Character.hpp/.cpp` | Classe concreta do personagem com inventário de 4 slots |
+| `IMateriaSource.hpp` | Interface do gerador de materias |
+| `MateriaSource.hpp/.cpp` | Classe concreta que aprende e cria materias |
+| `main.cpp` | Testes completos de integração conforme o enunciado |
 
 </details>
 
