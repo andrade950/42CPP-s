@@ -492,27 +492,27 @@ Extend the previous exercise by making `Animal` (or `AAnimal`) abstract. The `ma
 
 ### ex03 — Interface & recap
 
-**Goal:** Understand pure abstract classes used as interfaces and complex object management[cite: 1].
+**Goal:** Understand pure abstract classes used as interfaces and complex object management.
 
-Implement abstract classes and interfaces (`AMateria`, `ICharacter`, `IMateriaSource`) to build a Materia management system[cite: 1]:
-- `AMateria` — Abstract base class for materias with a type and clone/use functions[cite: 1].
-- `Ice` & `Cure` — Concrete materias returning low-case types (`"ice"`, `"cure"`) and custom `use()` output[cite: 1].
-- `Character` — Implements `ICharacter` with an inventory of 4 slots, deep copies on assignment/construction, and handling equipping/unequipping without memory leaks[cite: 1].
-- `MateriaSource` — Implements `IMateriaSource` to learn materia templates and create new ones by name[cite: 1].
+Implement abstract classes and interfaces (`AMateria`, `ICharacter`, `IMateriaSource`) to build a Materia management system:
+- `AMateria` — Abstract base class for materias with a type and clone/use functions.
+- `Ice` & `Cure` — Concrete materias returning low-case types (`"ice"`, `"cure"`) and custom `use()` output.
+- `Character` — Implements `ICharacter` with an inventory of 4 slots, deep copies on assignment/construction, and handling equipping/unequipping without memory leaks.
+- `MateriaSource` — Implements `IMateriaSource` to learn materia templates and create new ones by name.
 
-> ⚠️ Memory allocated for unequipped items or cloned materias must be properly managed to prevent leaks[cite: 1].
+> ⚠️ Memory allocated for unequipped items or cloned materias must be properly managed to prevent leaks.
 
 **Files:**
 | File | Description |
 |---|---|
-| `AMateria.hpp/.cpp` | Abstract base class for materias[cite: 1] |
-| `Ice.hpp/.cpp` | Ice materia implementation[cite: 1] |
-| `Cure.hpp/.cpp` | Cure materia implementation[cite: 1] |
-| `ICharacter.hpp` | Character interface[cite: 1] |
-| `Character.hpp/.cpp` | Concrete character class with a 4-slot inventory[cite: 1] |
-| `IMateriaSource.hpp` | Materia source interface[cite: 1] |
-| `MateriaSource.hpp/.cpp` | Concrete materia generator class[cite: 1] |
-| `main.cpp` | Complete integration tests matching subject requirements[cite: 1] |
+| `AMateria.hpp/.cpp` | Abstract base class for materias |
+| `Ice.hpp/.cpp` | Ice materia implementation |
+| `Cure.hpp/.cpp` | Cure materia implementation |
+| `ICharacter.hpp` | Character interface |
+| `Character.hpp/.cpp` | Concrete character class with a 4-slot inventory |
+| `IMateriaSource.hpp` | Materia source interface |
+| `MateriaSource.hpp/.cpp` | Concrete materia generator class |
+| `main.cpp` | Complete integration tests matching subject requirements |
 
 </details>
 
