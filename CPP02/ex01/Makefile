@@ -1,57 +1,28 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/03/23 14:56:37 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/24 14:50:40 by joaomart         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	= Fixed
 
-# --- Configurações ---
-CC			= c++
-CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
-NAME		= Fixed
+CXX		= c++
+CXXFLAGS	= -Wall -Wextra -Werror -std=c++98 -g
 
-# --- Ficheiros ---
 SRCS		= main.cpp Fixed.cpp
 OBJS		= $(SRCS:.cpp=.o)
 
-# --- Regras Principais ---
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "\n$(YELLOW)Mapeando conversões em $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)Conversor $(NAME) online! 🔄🔢$(RESET)"
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 %.o: %.cpp
-	@echo "$(CYAN)Calculando mantissa:$(RESET) $<"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# --- Limpeza ---
 clean:
-	@echo "$(RED)Limpando buffer de bits (objetos)...$(RESET)"
-	@rm -f $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	@echo "$(RED)Resetando hardware (binário)...$(RESET)"
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
-# --- Debug ---
 va: all
-	@echo "$(YELLOW)Inspecionando fluxo de dados...$(RESET)"
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
-
-# --- Cores ---
-GREEN		= \033[1;32m
-YELLOW		= \033[1;33m
-RED			= \033[1;31m
-CYAN		= \033[1;36m
-RESET		= \033[0m

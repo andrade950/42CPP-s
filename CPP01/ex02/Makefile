@@ -1,58 +1,28 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/03/17 14:07:01 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/24 14:50:04 by joaomart         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	= Brain
 
-# --- Configurações ---
-CC			= c++
-CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
-NAME		= Brain
+CXX		= c++
+CXXFLAGS	= -Wall -Wextra -Werror -std=c++98 -g
 
-# --- Ficheiros ---
 SRCS		= main.cpp
 OBJS		= $(SRCS:.cpp=.o)
 
-# --- Regras Principais ---
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "\n$(YELLOW)Estabelecendo sinapses para $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)Consciência $(NAME) despertada! 🧠⚡$(RESET)"
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 %.o: %.cpp
-	@echo "$(CYAN)Processando neurónio:$(RESET) $<"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# --- Limpeza ---
 clean:
-	@echo "$(RED)Apagando memórias curtas (objetos)...$(RESET)"
-	@rm -f $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	@echo "$(RED)Amnésia total (binário)...$(RESET)"
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
-# --- Debug ---
-# Essencial para ver se os endereços de memória batem certo no output
 va: all
-	@echo "$(YELLOW)Mapeando atividade cerebral (Valgrind)...$(RESET)"
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
-
-# --- Cores ---
-GREEN		= \033[1;32m
-YELLOW		= \033[1;33m
-RED			= \033[1;31m
-CYAN		= \033[1;36m
-RESET		= \033[0m

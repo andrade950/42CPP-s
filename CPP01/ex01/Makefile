@@ -1,58 +1,28 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/03/17 13:59:58 by joaomart          #+#    #+#              #
-#    Updated: 2026/03/24 14:49:50 by joaomart         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	= Zombie
 
-# --- Configurações ---
-CC			= c++
-CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
-NAME		= Zombie
+CXX		= c++
+CXXFLAGS	= -Wall -Wextra -Werror -std=c++98 -g
 
-# --- Ficheiros ---
 SRCS		= main.cpp Zombie.cpp zombieHorde.cpp
 OBJS		= $(SRCS:.cpp=.o)
 
-# --- Regras Principais ---
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "\n$(YELLOW)Infectando a população para criar $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)A horda de $(NAME)s está pronta! ☣️ 🧟🧟🧟$(RESET)"
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 %.o: %.cpp
-	@echo "$(CYAN)Propagando vírus:$(RESET) $<"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# --- Limpeza ---
 clean:
-	@echo "$(RED)Eliminando vestígios biológicos (objetos)...$(RESET)"
-	@rm -f $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	@echo "$(RED)Quarentena total (binário)...$(RESET)"
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
-# --- Debug ---
-# Verificação crucial para o 'zombieHorde' (uso de new[] e delete[])
 va: all
-	@echo "$(YELLOW)Inspecionando a horda no microscópio (Valgrind)...$(RESET)"
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re va
-
-# --- Cores ---
-GREEN		= \033[1;32m
-YELLOW		= \033[1;33m
-RED			= \033[1;31m
-CYAN		= \033[1;36m
-RESET		= \033[0m
